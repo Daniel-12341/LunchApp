@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import confetti from 'canvas-confetti'
 import { MENU, MenuItem } from '@/data/menu'
-import { getPreviousOrder } from '@/utils/orderActions'
+import { getPreviousOrder, saveOrder } from '@/utils/orderActions'
 
 type PreviousOrder = {
   meal_name: string
@@ -38,8 +39,6 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
   const [isSpinning, setIsSpinning] = useState(false)
   const [spinDisplayItem, setSpinDisplayItem] = useState<SpinItem | null>(null)
   const [spinFading, setSpinFading] = useState(false)
-  // step is available for Plan 02 to extend (confirm/success screens)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [step, setStep] = useState<Step>('select')
   const [pendingOrder, setPendingOrder] = useState<null | {
     mealName: string
@@ -49,9 +48,8 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
     userId: string
     selectedName: string
   }>(null)
-
-  // Suppress unused warning — pendingOrder will be consumed in Plan 02
-  void pendingOrder
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   useEffect(() => {
     getPreviousOrder(name).then(({ data }) => {
@@ -133,7 +131,46 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
       selectedName: name,
     }
     setPendingOrder(order)
+    setSubmitError(null)
     setStep('confirm')
+  }
+
+  async function handleConfirm() {
+    if (!pendingOrder) return
+    setIsSubmitting(true)
+    setSubmitError(null)
+
+    const result = await saveOrder({
+      userId: pendingOrder.userId,
+      selectedName: pendingOrder.selectedName,
+      mealCategory: pendingOrder.mealCategory,
+      mealName: pendingOrder.mealName,
+      price: pendingOrder.price,
+      customisation: pendingOrder.customisation || undefined,
+    })
+
+    if (result.error) {
+      setSubmitError(result.error)
+      setIsSubmitting(false)
+      return
+    }
+
+    confetti({
+      particleCount: 120,
+      spread: 80,
+      origin: { y: 0.6 },
+      colors: ['#10b981', '#34d399', '#6ee7b7', '#fbbf24', '#f59e0b'],
+    })
+    setIsSubmitting(false)
+    setStep('success')
+  }
+
+  function handleDone() {
+    setStep('select')
+    setSelectedItem(null)
+    setSpecialRequests('')
+    setSubmitError(null)
+    setPendingOrder(null)
   }
 
   const currentItem = selectedItem
@@ -146,6 +183,124 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
   const previousCatEmoji = previousOrder
     ? MENU.find(cat => cat.name === previousOrder.meal_category)?.emoji ?? ''
     : ''
+
+  // Confirmation screen
+  if (step === 'confirm' && pendingOrder) {
+    const confirmCat = MENU.find(c => c.name === pendingOrder.mealCategory)
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-green-100 flex items-center justify-center px-4 py-8">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 space-y-5">
+          <div className="text-center">
+            <div className="text-3xl mb-2">📋</div>
+            <h2 className="text-xl font-extrabold text-gray-800">Review Your Order</h2>
+            <p className="text-sm text-gray-500 mt-1">Looks good? Lock it in!</p>
+          </div>
+
+          <div className="bg-emerald-50 rounded-xl p-4 space-y-3">
+            <div>
+              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Meal</div>
+              <div className="text-lg font-bold text-gray-800">{pendingOrder.mealName}</div>
+            </div>
+            <div>
+              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Category</div>
+              <div className="text-sm text-gray-700">
+                {confirmCat?.emoji} {pendingOrder.mealCategory}
+              </div>
+            </div>
+            <div>
+              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Price</div>
+              <div className="text-sm font-bold text-emerald-700">R{pendingOrder.price}</div>
+            </div>
+            {pendingOrder.customisation && (
+              <div>
+                <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Special Requests</div>
+                <div className="text-sm text-gray-600 italic">{pendingOrder.customisation}</div>
+              </div>
+            )}
+          </div>
+
+          {submitError && (
+            <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+              Something went wrong: {submitError}. Please try again.
+            </div>
+          )}
+
+          <div className="flex gap-3 pt-1">
+            <button
+              onClick={() => setStep('select')}
+              disabled={isSubmitting}
+              className="flex-1 py-3 rounded-xl border border-emerald-300 text-emerald-700 font-semibold text-sm hover:bg-emerald-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Go Back
+            </button>
+            <button
+              onClick={handleConfirm}
+              disabled={isSubmitting}
+              className="flex-1 py-3 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 shadow-md transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {isSubmitting ? (
+                <>
+                  <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Saving...
+                </>
+              ) : (
+                'Confirm Order'
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Success screen
+  if (step === 'success' && pendingOrder) {
+    const successCat = MENU.find(c => c.name === pendingOrder.mealCategory)
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-green-100 flex items-center justify-center px-4 py-8">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 space-y-5 ring-2 ring-emerald-200">
+          <div className="text-center">
+            <div className="text-5xl mb-3">🎉</div>
+            <h2 className="text-2xl font-extrabold text-emerald-600">Order Placed!</h2>
+            <p className="text-sm text-gray-500 mt-1">Your order is confirmed for this week.</p>
+          </div>
+
+          <div className="bg-emerald-50 rounded-xl p-4 space-y-3">
+            <div>
+              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Meal</div>
+              <div className="text-lg font-bold text-gray-800">{pendingOrder.mealName}</div>
+            </div>
+            <div>
+              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Category</div>
+              <div className="text-sm text-gray-700">
+                {successCat?.emoji} {pendingOrder.mealCategory}
+              </div>
+            </div>
+            <div>
+              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Price</div>
+              <div className="text-sm font-bold text-emerald-700">R{pendingOrder.price}</div>
+            </div>
+            {pendingOrder.customisation && (
+              <div>
+                <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Special Requests</div>
+                <div className="text-sm text-gray-600 italic">{pendingOrder.customisation}</div>
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={handleDone}
+            className="w-full py-4 rounded-xl bg-emerald-500 text-white font-bold text-base hover:bg-emerald-600 shadow-md transition-all active:scale-95"
+          >
+            Done
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-green-100 pb-24">
