@@ -40,7 +40,7 @@
 
 - [ ] **SHR-01**: WhatsApp link generated with all weekly orders formatted as a clean list
 - [ ] **SHR-02**: WhatsApp link opens in new tab after submit
-- [ ] **SHR-03**: Confetti animation and success message shown after order submission
+- [x] **SHR-03**: Confetti animation and success message shown after order submission
 
 ### Admin
 
@@ -100,7 +100,7 @@
 | ORD-06 | Phase 3 | Complete |
 | SHR-01 | Phase 3 | Pending |
 | SHR-02 | Phase 3 | Pending |
-| SHR-03 | Phase 3 | Pending |
+| SHR-03 | Phase 3 | Complete |
 | ADM-01 | Phase 4 | Pending |
 | ADM-02 | Phase 4 | Pending |
 | ADM-03 | Phase 4 | Pending |

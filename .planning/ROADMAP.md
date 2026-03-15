@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Supabase migrations, auth, seeded users, RLS policies (completed 2026-03-15)
 - [x] **Phase 2: Name Selector** - Full-screen name picker with animated Leaflet map zoom (completed 2026-03-15)
-- [ ] **Phase 3: Order + Share** - Lunch order page, submit to Supabase, WhatsApp link, confetti
+- [x] **Phase 3: Order + Share** - Lunch order page, submit to Supabase, WhatsApp link, confetti (completed 2026-03-15)
 - [ ] **Phase 4: Admin + Polish** - Admin page, manual reset, edge function auto-reset, UI polish
 
 ## Phase Details
@@ -91,5 +91,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete    | 2026-03-15 |
 | 2. Name Selector | 2/2 | Complete    | 2026-03-15 |
-| 3. Order + Share | 1/2 | In Progress|  |
+| 3. Order + Share | 2/2 | Complete   | 2026-03-15 |
 | 4. Admin + Polish | 0/2 | Not started | - |
