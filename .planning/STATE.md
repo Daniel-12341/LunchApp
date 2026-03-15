@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 4 context gathered
-last_updated: "2026-03-15T19:18:52.277Z"
+stopped_at: Completed 04-admin-polish/04-01-PLAN.md
+last_updated: "2026-03-15T19:51:53.849Z"
 last_activity: "2026-03-15 — Phase 1 Plan 02 complete: auth UI and route protection"
 progress:
   total_phases: 4
   completed_phases: 3
-  total_plans: 6
-  completed_plans: 6
+  total_plans: 9
+  completed_plans: 7
   percent: 0
 ---
 
@@ -56,6 +56,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02-name-selector P02 | 2 | 2 tasks | 6 files |
 | Phase 03-order-share P01 | 12 | 2 tasks | 4 files |
 | Phase 03-order-share P02 | 5min | 2 tasks | 1 files |
+| Phase 04-admin-polish P01 | 10min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -79,6 +80,8 @@ Recent decisions affecting current work:
 - [Phase 03-order-share]: Surprise Me ticker uses setInterval at 80ms over 20 ticks, auto-selects winner and switches tab on completion
 - [Phase 03-order-share]: Early return render pattern used for confirm/success screens in OrderPageClient
 - [Phase 03-order-share]: pendingOrder state carries all order data through confirm/success screens without re-deriving from selectedItem
+- [Phase 04-admin-polish]: getWeeklyOrders returns week+year alongside data so page.tsx can pass them to client without a second calculation
+- [Phase 04-admin-polish]: archiveWeek uses .select('id') after UPDATE to get count of archived rows (Supabase requires select to return updated rows)
 
 ### Pending Todos
 
@@ -90,6 +93,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T19:18:52.274Z
-Stopped at: Phase 4 context gathered
-Resume file: .planning/phases/04-admin-polish/04-CONTEXT.md
+Last session: 2026-03-15T19:51:53.824Z
+Stopped at: Completed 04-admin-polish/04-01-PLAN.md
+Resume file: None

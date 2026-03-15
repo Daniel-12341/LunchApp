@@ -44,10 +44,10 @@
 
 ### Admin
 
-- [ ] **ADM-01**: Admin page at /admin, only accessible to admin role
-- [ ] **ADM-02**: Table showing all current week orders (name, meal, price, customisation, time)
-- [ ] **ADM-03**: Button to manually archive current week orders
-- [ ] **ADM-04**: Button to export orders as text summary for WhatsApp
+- [x] **ADM-01**: Admin page at /admin, only accessible to admin role
+- [x] **ADM-02**: Table showing all current week orders (name, meal, price, customisation, time)
+- [x] **ADM-03**: Button to manually archive current week orders
+- [x] **ADM-04**: Button to export orders as text summary for WhatsApp
 
 ### UI/UX
 
@@ -101,10 +101,10 @@
 | SHR-01 | Phase 3 | Pending |
 | SHR-02 | Phase 3 | Pending |
 | SHR-03 | Phase 3 | Complete |
-| ADM-01 | Phase 4 | Pending |
-| ADM-02 | Phase 4 | Pending |
-| ADM-03 | Phase 4 | Pending |
-| ADM-04 | Phase 4 | Pending |
+| ADM-01 | Phase 4 | Complete |
+| ADM-02 | Phase 4 | Complete |
+| ADM-03 | Phase 4 | Complete |
+| ADM-04 | Phase 4 | Complete |
 | UI-01 | Phase 4 | Pending |
 | UI-02 | Phase 4 | Pending |
 | UI-03 | Phase 4 | Pending |
