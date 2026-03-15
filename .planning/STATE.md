@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-03-15T16:02:55.363Z"
+stopped_at: Completed 01-foundation-01-PLAN.md
+last_updated: "2026-03-15T16:20:54.512Z"
 last_activity: 2026-03-15 — Roadmap created, ready to begin Phase 1 planning
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_plans: 2
+  completed_plans: 1
   percent: 0
 ---
 
@@ -50,6 +50,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 01-foundation P01 | 18 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -62,6 +63,8 @@ Recent decisions affecting current work:
 - Org members and menu items are hardcoded (no management UI)
 - Archive-based weekly reset preserves history for "Previous Order" feature
 - WhatsApp sharing via wa.me link (no API integration)
+- [Phase 01-foundation]: profiles.id is plain UUID (no FK to auth.users) with nullable auth_user_id column for auth-linked rows, enabling org members without auth accounts to have profile rows
+- [Phase 01-foundation]: RLS policies use auth_user_id (not id) for admin role checks since profiles.id is not a FK to auth.users
 
 ### Pending Todos
 
@@ -73,6 +76,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T16:02:55.360Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-foundation/01-CONTEXT.md
+Last session: 2026-03-15T16:20:54.510Z
+Stopped at: Completed 01-foundation-01-PLAN.md
+Resume file: None
