@@ -90,6 +90,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete    | 2026-03-15 |
-| 2. Name Selector | 0/2 | Not started | - |
+| 2. Name Selector | 1/2 | In Progress|  |
 | 3. Order + Share | 0/2 | Not started | - |
 | 4. Admin + Polish | 0/2 | Not started | - |
