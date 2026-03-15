@@ -51,20 +51,20 @@ Plans:
 - [ ] 02-02-PLAN.md — Leaflet map page with emoji markers, flyTo animation, dropdown, Continue button
 
 ### Phase 3: Order + Share
-**Goal**: User can place their lunch order and share it to WhatsApp in one click
+**Goal**: User can place their lunch order, review it, confirm, and celebrate with confetti (WhatsApp sharing deferred to Phase 4)
 **Depends on**: Phase 2
 **Requirements**: ORD-01, ORD-02, ORD-03, ORD-04, ORD-05, ORD-06, SHR-01, SHR-02, SHR-03
 **Success Criteria** (what must be TRUE):
   1. User sees four meal categories (Pizza, Pasta, Salad, Panini) with priced items and can select one
   2. "My Previous Order" shows the last order and lets the user re-select it in one click
   3. "Surprise Me!" picks a random meal with a visible animation
-  4. Submitting an order saves it to Supabase and opens a WhatsApp link with all weekly orders
+  4. Submitting an order saves it to Supabase with a confirmation review step
   5. Confetti animation and success message appear after order submission
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: Order page — menu categories, previous order, Surprise Me, special requests, submit
-- [ ] 03-02: WhatsApp link generation, confetti success screen
+- [ ] 03-01-PLAN.md — Server actions, order page with menu tabs, previous order, Surprise Me, special requests, submit
+- [ ] 03-02-PLAN.md — Confirmation review screen, confetti success celebration, end-to-end verification
 
 ### Phase 4: Admin + Polish
 **Goal**: Admin can view and manage all weekly orders, and the app looks and feels great on any device
