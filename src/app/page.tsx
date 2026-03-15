@@ -40,18 +40,18 @@ export default function LoginPage() {
       }}
     >
       {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-riivo-navy/80 backdrop-blur-sm" />
 
       {/* Login card */}
       <div className="relative z-10 w-full max-w-md mx-4">
-        <div className="bg-white/95 backdrop-blur rounded-2xl shadow-2xl px-8 py-10">
+        <div className="bg-riivo-navy-light/95 backdrop-blur border border-riivo-border rounded-2xl shadow-2xl px-8 py-10">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="text-5xl mb-3">🍽️</div>
-            <h1 className="text-3xl font-extrabold text-emerald-600 tracking-tight">
+            <h1 className="text-3xl font-pacifico text-riivo-yellow tracking-tight">
               What&apos;s for lunch?
             </h1>
-            <p className="text-gray-500 mt-2 text-sm">
+            <p className="text-riivo-muted mt-2 text-sm font-fredoka">
               Sign in to place your order
             </p>
           </div>
@@ -61,7 +61,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm font-semibold text-gray-700 mb-1"
+                className="block text-sm font-semibold text-riivo-muted mb-1"
               >
                 Username
               </label>
@@ -73,7 +73,7 @@ export default function LoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 disabled={isLoading}
-                className="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition disabled:opacity-60"
+                className="w-full rounded-xl border border-riivo-border bg-riivo-navy px-4 py-3 text-riivo-white placeholder-riivo-muted/50 focus:outline-none focus:ring-2 focus:ring-riivo-yellow focus:border-transparent transition disabled:opacity-60"
               />
             </div>
 
@@ -81,7 +81,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-semibold text-gray-700 mb-1"
+                className="block text-sm font-semibold text-riivo-muted mb-1"
               >
                 Password
               </label>
@@ -93,13 +93,13 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={isLoading}
-                className="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition disabled:opacity-60"
+                className="w-full rounded-xl border border-riivo-border bg-riivo-navy px-4 py-3 text-riivo-white placeholder-riivo-muted/50 focus:outline-none focus:ring-2 focus:ring-riivo-yellow focus:border-transparent transition disabled:opacity-60"
               />
             </div>
 
             {/* Error message */}
             {errorMsg && (
-              <p className="text-red-500 text-sm text-center font-medium bg-red-50 rounded-lg px-3 py-2">
+              <p className="text-red-400 text-sm text-center font-medium bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
                 {errorMsg}
               </p>
             )}
@@ -108,11 +108,11 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg"
+              className="w-full bg-riivo-yellow hover:brightness-110 text-riivo-navy font-bold py-3 px-6 rounded-xl shadow-md transition disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg font-fredoka"
             >
               {isLoading ? (
                 <>
-                  <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span className="inline-block w-5 h-5 border-2 border-riivo-navy border-t-transparent rounded-full animate-spin" />
                   Signing in...
                 </>
               ) : (

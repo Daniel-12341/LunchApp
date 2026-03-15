@@ -24,14 +24,26 @@ type SelectedItem = {
   useAltPrice?: boolean
 }
 
-type Step = 'select' | 'confirm' | 'success'
+type Step = 'select' | 'confirm' | 'success' | 'done'
 
 interface OrderPageClientProps {
   name: string
   userId: string
 }
 
+const FOOD_BACKGROUNDS = [
+  'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&q=70', // pizza
+  'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&q=70', // pizza 2
+  'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=1200&q=70', // pasta
+  'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=1200&q=70', // pasta 2
+  'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&q=70', // salad
+  'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=1200&q=70', // panini
+  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=70', // food spread
+  'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=1200&q=70', // food platter
+]
+
 export default function OrderPageClient({ name, userId }: OrderPageClientProps) {
+  const [bgImage] = useState(() => FOOD_BACKGROUNDS[Math.floor(Math.random() * FOOD_BACKGROUNDS.length)])
   const [activeTab, setActiveTab] = useState(0)
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null)
   const [specialRequests, setSpecialRequests] = useState('')
@@ -159,18 +171,14 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
       particleCount: 120,
       spread: 80,
       origin: { y: 0.6 },
-      colors: ['#10b981', '#34d399', '#6ee7b7', '#fbbf24', '#f59e0b'],
+      colors: ['#D4E000', '#E8F540', '#FFFF66', '#0B1C3E', '#122350'],
     })
     setIsSubmitting(false)
     setStep('success')
   }
 
   function handleDone() {
-    setStep('select')
-    setSelectedItem(null)
-    setSpecialRequests('')
-    setSubmitError(null)
-    setPendingOrder(null)
+    setStep('done')
   }
 
   const currentItem = selectedItem
@@ -188,39 +196,41 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
   if (step === 'confirm' && pendingOrder) {
     const confirmCat = MENU.find(c => c.name === pendingOrder.mealCategory)
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-green-100 flex items-center justify-center px-4 py-8">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 space-y-5">
+      <div className="min-h-screen relative flex items-center justify-center px-4 py-8">
+        <div className="fixed inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${bgImage})` }} />
+        <div className="fixed inset-0 bg-riivo-navy/90" />
+        <div className="relative z-10 w-full max-w-md bg-riivo-navy-light border border-riivo-border rounded-2xl shadow-lg p-6 space-y-5">
           <div className="text-center">
             <div className="text-3xl mb-2">📋</div>
-            <h2 className="text-xl font-extrabold text-gray-800">Review Your Order</h2>
-            <p className="text-sm text-gray-500 mt-1">Looks good? Lock it in!</p>
+            <h2 className="text-xl font-fredoka text-riivo-white">Review Your Order</h2>
+            <p className="text-sm text-riivo-muted mt-1">Looks good? Lock it in!</p>
           </div>
 
-          <div className="bg-emerald-50 rounded-xl p-4 space-y-3">
+          <div className="bg-riivo-navy rounded-xl border border-riivo-border p-4 space-y-3">
             <div>
-              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Meal</div>
-              <div className="text-lg font-bold text-gray-800">{pendingOrder.mealName}</div>
+              <div className="text-xs font-semibold text-riivo-yellow uppercase tracking-wide mb-1">Meal</div>
+              <div className="text-lg font-bold text-riivo-white">{pendingOrder.mealName}</div>
             </div>
             <div>
-              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Category</div>
-              <div className="text-sm text-gray-700">
+              <div className="text-xs font-semibold text-riivo-yellow uppercase tracking-wide mb-1">Category</div>
+              <div className="text-sm text-riivo-muted">
                 {confirmCat?.emoji} {pendingOrder.mealCategory}
               </div>
             </div>
             <div>
-              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Price</div>
-              <div className="text-sm font-bold text-emerald-700">R{pendingOrder.price}</div>
+              <div className="text-xs font-semibold text-riivo-yellow uppercase tracking-wide mb-1">Price</div>
+              <div className="text-sm font-bold text-riivo-yellow">R{pendingOrder.price}</div>
             </div>
             {pendingOrder.customisation && (
               <div>
-                <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Special Requests</div>
-                <div className="text-sm text-gray-600 italic">{pendingOrder.customisation}</div>
+                <div className="text-xs font-semibold text-riivo-yellow uppercase tracking-wide mb-1">Special Requests</div>
+                <div className="text-sm text-riivo-muted italic">{pendingOrder.customisation}</div>
               </div>
             )}
           </div>
 
           {submitError && (
-            <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+            <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
               Something went wrong: {submitError}. Please try again.
             </div>
           )}
@@ -229,18 +239,18 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
             <button
               onClick={() => setStep('select')}
               disabled={isSubmitting}
-              className="flex-1 py-3 rounded-xl border border-emerald-300 text-emerald-700 font-semibold text-sm hover:bg-emerald-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 py-3 rounded-xl border border-riivo-yellow text-riivo-yellow font-semibold text-sm hover:bg-riivo-yellow/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-fredoka"
             >
               Go Back
             </button>
             <button
               onClick={handleConfirm}
               disabled={isSubmitting}
-              className="flex-1 py-3 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 shadow-md transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 py-3 rounded-xl bg-riivo-yellow text-riivo-navy font-bold text-sm hover:brightness-110 shadow-md transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-fredoka"
             >
               {isSubmitting ? (
                 <>
-                  <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-4 w-4 text-riivo-navy" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
@@ -260,40 +270,42 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
   if (step === 'success' && pendingOrder) {
     const successCat = MENU.find(c => c.name === pendingOrder.mealCategory)
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-green-100 flex items-center justify-center px-4 py-8">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 space-y-5 ring-2 ring-emerald-200">
+      <div className="min-h-screen relative flex items-center justify-center px-4 py-8">
+        <div className="fixed inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${bgImage})` }} />
+        <div className="fixed inset-0 bg-riivo-navy/90" />
+        <div className="relative z-10 w-full max-w-md bg-riivo-navy-light border border-riivo-border rounded-2xl shadow-lg p-6 space-y-5 ring-2 ring-riivo-yellow/30">
           <div className="text-center">
             <div className="text-5xl mb-3">🎉</div>
-            <h2 className="text-2xl font-extrabold text-emerald-600">Order Placed!</h2>
-            <p className="text-sm text-gray-500 mt-1">Your order is confirmed for this week.</p>
+            <h2 className="text-2xl font-pacifico text-riivo-yellow">Order Placed!</h2>
+            <p className="text-sm text-riivo-muted mt-1">Your order is confirmed for this week.</p>
           </div>
 
-          <div className="bg-emerald-50 rounded-xl p-4 space-y-3">
+          <div className="bg-riivo-navy rounded-xl border border-riivo-border p-4 space-y-3">
             <div>
-              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Meal</div>
-              <div className="text-lg font-bold text-gray-800">{pendingOrder.mealName}</div>
+              <div className="text-xs font-semibold text-riivo-yellow uppercase tracking-wide mb-1">Meal</div>
+              <div className="text-lg font-bold text-riivo-white">{pendingOrder.mealName}</div>
             </div>
             <div>
-              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Category</div>
-              <div className="text-sm text-gray-700">
+              <div className="text-xs font-semibold text-riivo-yellow uppercase tracking-wide mb-1">Category</div>
+              <div className="text-sm text-riivo-muted">
                 {successCat?.emoji} {pendingOrder.mealCategory}
               </div>
             </div>
             <div>
-              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Price</div>
-              <div className="text-sm font-bold text-emerald-700">R{pendingOrder.price}</div>
+              <div className="text-xs font-semibold text-riivo-yellow uppercase tracking-wide mb-1">Price</div>
+              <div className="text-sm font-bold text-riivo-yellow">R{pendingOrder.price}</div>
             </div>
             {pendingOrder.customisation && (
               <div>
-                <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Special Requests</div>
-                <div className="text-sm text-gray-600 italic">{pendingOrder.customisation}</div>
+                <div className="text-xs font-semibold text-riivo-yellow uppercase tracking-wide mb-1">Special Requests</div>
+                <div className="text-sm text-riivo-muted italic">{pendingOrder.customisation}</div>
               </div>
             )}
           </div>
 
           <button
             onClick={handleDone}
-            className="w-full py-4 rounded-xl bg-emerald-500 text-white font-bold text-base hover:bg-emerald-600 shadow-md transition-all active:scale-95"
+            className="w-full py-4 rounded-xl bg-riivo-yellow text-riivo-navy font-bold text-base hover:brightness-110 shadow-md transition-all active:scale-95 font-fredoka"
           >
             Done
           </button>
@@ -302,16 +314,60 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
     )
   }
 
+  // Done screen — faint overlay with food category background
+  if (step === 'done' && pendingOrder) {
+    const doneCat = MENU.find(c => c.name === pendingOrder.mealCategory)
+    const categoryImages: Record<string, string> = {
+      Pizza: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',
+      Pasta: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800&q=80',
+      Salad: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',
+      Panini: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800&q=80',
+    }
+    const bgImage = categoryImages[pendingOrder.mealCategory] ?? categoryImages.Pizza
+
+    return (
+      <div className="min-h-screen relative flex items-center justify-center">
+        {/* Background image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${bgImage})` }}
+        />
+        {/* Faint overlay */}
+        <div className="absolute inset-0 bg-riivo-navy/75 backdrop-blur-sm" />
+
+        {/* Content */}
+        <div className="relative z-10 text-center px-6">
+          <div className="text-6xl mb-6">{doneCat?.emoji ?? '🍽️'}</div>
+          <h1 className="text-3xl font-extrabold text-riivo-white mb-3">
+            Your weekly order is complete
+          </h1>
+          <p className="text-riivo-yellow text-lg font-semibold">
+            {pendingOrder.mealName} — R{pendingOrder.price}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-green-100 pb-24">
+    <div className="min-h-screen relative pb-24">
+      {/* Randomised faint food background */}
+      <div
+        className="fixed inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${bgImage})` }}
+      />
+      <div className="fixed inset-0 bg-riivo-navy/90" />
+
+      {/* Page content */}
+      <div className="relative z-10">
 
       {/* Header */}
-      <div className="bg-white/70 backdrop-blur-sm border-b border-emerald-100 px-4 py-5 text-center">
+      <div className="bg-riivo-navy-light/70 backdrop-blur-sm border-b border-riivo-border px-4 py-5 text-center">
         <div className="text-3xl mb-1">🍽️</div>
-        <h1 className="text-2xl font-extrabold text-emerald-700">
+        <h1 className="text-2xl font-pacifico text-riivo-yellow">
           Hey {name}! What&apos;s for lunch?
         </h1>
-        <p className="text-sm text-emerald-500 mt-1">Pick your meal below</p>
+        <p className="text-sm text-riivo-muted mt-1">Pick your meal below</p>
       </div>
 
       <div className="max-w-lg mx-auto px-4 pt-4 space-y-4">
@@ -323,15 +379,15 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
           {previousOrder && (
             <button
               onClick={handleReSelectPrevious}
-              className="flex-1 bg-white rounded-xl shadow-sm border border-emerald-100 p-3 text-left hover:border-emerald-400 hover:shadow-md transition-all"
+              className="flex-1 bg-riivo-navy-light rounded-xl shadow-sm border border-riivo-border p-3 text-left hover:border-riivo-yellow hover:shadow-md transition-all"
             >
-              <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">
+              <div className="text-xs font-semibold font-fredoka text-riivo-yellow uppercase tracking-wide mb-1">
                 My Previous Order
               </div>
-              <div className="font-semibold text-gray-800 text-sm leading-tight">
+              <div className="font-semibold text-riivo-white text-sm leading-tight">
                 {previousCatEmoji} {previousOrder.meal_name}
               </div>
-              <div className="text-xs text-gray-500 mt-0.5">R{previousOrder.price}</div>
+              <div className="text-xs text-riivo-muted mt-0.5">R{previousOrder.price}</div>
             </button>
           )}
 
@@ -339,10 +395,10 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
           <button
             onClick={handleSurpriseMe}
             disabled={isSpinning}
-            className={`flex-1 rounded-xl shadow-sm border font-bold text-sm py-3 px-4 transition-all flex flex-col items-center justify-center gap-1
+            className={`flex-1 rounded-xl shadow-sm border font-bold text-sm py-3 px-4 transition-all flex flex-col items-center justify-center gap-1 font-fredoka
               ${isSpinning
-                ? 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-emerald-500 border-emerald-500 text-white hover:bg-emerald-600 hover:shadow-md active:scale-95'
+                ? 'bg-riivo-navy-light border-riivo-border text-riivo-muted cursor-not-allowed'
+                : 'bg-riivo-yellow border-riivo-yellow text-riivo-navy hover:brightness-110 hover:shadow-md active:scale-95'
               }`}
           >
             <span className="text-xl">🎲</span>
@@ -353,34 +409,34 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
         {/* Ticker display */}
         {(isSpinning || spinDisplayItem) && (
           <div
-            className={`bg-white rounded-xl shadow-sm border border-emerald-200 p-3 text-center transition-opacity duration-500
+            className={`bg-riivo-navy-light rounded-xl shadow-sm border border-riivo-yellow/30 p-3 text-center transition-opacity duration-500
               ${spinFading ? 'opacity-0' : 'opacity-100'}`}
           >
-            <div className="text-xs text-emerald-500 font-semibold uppercase tracking-wide mb-1">
+            <div className="text-xs text-riivo-yellow font-semibold uppercase tracking-wide mb-1">
               {isSpinning ? 'Spinning...' : 'You got...'}
             </div>
-            <div className="text-lg font-bold text-gray-800">
+            <div className="text-lg font-bold text-riivo-white">
               {spinDisplayItem
                 ? `${MENU[spinDisplayItem.catIdx].emoji} ${spinDisplayItem.item.name}`
                 : ''}
             </div>
             {spinDisplayItem && !isSpinning && (
-              <div className="text-sm text-emerald-600 mt-0.5">R{spinDisplayItem.item.price}</div>
+              <div className="text-sm text-riivo-yellow mt-0.5">R{spinDisplayItem.item.price}</div>
             )}
           </div>
         )}
 
         {/* Tab bar */}
-        <div className="bg-white rounded-xl shadow-sm border border-emerald-100 overflow-hidden">
+        <div className="bg-riivo-navy-light rounded-xl shadow-sm border border-riivo-border overflow-hidden">
           <div className="flex">
             {MENU.map((cat, idx) => (
               <button
                 key={cat.name}
                 onClick={() => setActiveTab(idx)}
-                className={`flex-1 py-3 text-sm font-semibold transition-colors
+                className={`flex-1 py-3 min-h-[44px] text-sm font-semibold font-fredoka transition-colors border-b-2
                   ${activeTab === idx
-                    ? 'bg-emerald-500 text-white'
-                    : 'text-gray-500 hover:text-emerald-600 hover:bg-emerald-50'
+                    ? 'bg-riivo-yellow text-riivo-navy border-riivo-yellow'
+                    : 'text-riivo-muted hover:text-riivo-white hover:bg-riivo-navy border-transparent'
                   }`}
               >
                 <span className="block text-base">{cat.emoji}</span>
@@ -391,7 +447,7 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
         </div>
 
         {/* Menu items */}
-        <div className="bg-white rounded-xl shadow-sm border border-emerald-100 overflow-hidden divide-y divide-gray-50">
+        <div className="bg-riivo-navy-light rounded-xl shadow-sm border border-riivo-border overflow-hidden divide-y divide-riivo-border">
           {MENU[activeTab].items.map((item, itemIdx) => {
             const isSelected =
               selectedItem?.categoryIndex === activeTab &&
@@ -407,24 +463,24 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
                 onClick={() => handleSelectItem(activeTab, itemIdx)}
                 className={`w-full text-left px-4 py-3 transition-colors
                   ${isSelected
-                    ? 'bg-emerald-50 border-l-4 border-emerald-500'
-                    : 'hover:bg-gray-50 border-l-4 border-transparent'
+                    ? 'bg-riivo-yellow/10 border-l-4 border-riivo-yellow'
+                    : 'hover:bg-riivo-navy border-l-4 border-transparent'
                   }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className={`font-semibold text-sm ${isSelected ? 'text-emerald-700' : 'text-gray-800'}`}>
+                  <span className={`font-semibold text-sm ${isSelected ? 'text-riivo-yellow' : 'text-riivo-white'}`}>
                     {item.name}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className={`text-sm font-bold ${isSelected ? 'text-emerald-600' : 'text-gray-600'}`}>
+                    <span className={`text-sm font-bold ${isSelected ? 'text-riivo-yellow' : 'text-riivo-muted'}`}>
                       R{displayPrice}
                     </span>
                     {isSelected && (
-                      <span className="text-emerald-500 text-base">✓</span>
+                      <span className="text-riivo-yellow text-base">✓</span>
                     )}
                   </div>
                 </div>
-                <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">{item.description}</p>
+                <p className="text-xs text-riivo-muted mt-0.5 leading-relaxed">{item.description}</p>
 
                 {/* Carbonara cream toggle */}
                 {isCarbonaraSelected && item.priceAlt && item.priceAltLabel && (
@@ -433,13 +489,13 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
                     onClick={handleToggleAltPrice}
                   >
                     <div className={`w-8 h-4 rounded-full transition-colors flex items-center px-0.5
-                      ${selectedItem?.useAltPrice ? 'bg-emerald-500' : 'bg-gray-300'}`}
+                      ${selectedItem?.useAltPrice ? 'bg-riivo-yellow' : 'bg-riivo-border'}`}
                     >
-                      <div className={`w-3 h-3 bg-white rounded-full shadow transition-transform
+                      <div className={`w-3 h-3 bg-riivo-white rounded-full shadow transition-transform
                         ${selectedItem?.useAltPrice ? 'translate-x-4' : 'translate-x-0'}`}
                       />
                     </div>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-riivo-muted">
                       {item.priceAltLabel} (+R{item.priceAlt - item.price})
                     </span>
                   </div>
@@ -450,8 +506,8 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
         </div>
 
         {/* Special requests */}
-        <div className="bg-white rounded-xl shadow-sm border border-emerald-100 p-4">
-          <label className="block text-sm font-semibold text-gray-600 mb-2">
+        <div className="bg-riivo-navy-light rounded-xl shadow-sm border border-riivo-border p-4">
+          <label className="block text-sm font-semibold font-fredoka text-riivo-muted mb-2">
             Special Requests
           </label>
           <textarea
@@ -459,22 +515,22 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
             onChange={e => setSpecialRequests(e.target.value)}
             placeholder="Any special requests? (e.g. no onions, extra cheese)"
             rows={3}
-            className="w-full text-sm text-gray-700 placeholder-gray-400 border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition"
+            className="w-full text-sm text-riivo-white placeholder-riivo-muted/50 bg-riivo-navy border border-riivo-border rounded-lg px-3 py-2 resize-none focus:outline-none focus:border-riivo-yellow focus:ring-1 focus:ring-riivo-yellow transition"
           />
         </div>
 
       </div>
 
       {/* Sticky submit button */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-emerald-100 px-4 py-3 shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 bg-riivo-navy-light/90 backdrop-blur-sm border-t border-riivo-border px-4 py-3 shadow-lg">
         <div className="max-w-lg mx-auto">
           <button
             onClick={handleSubmit}
             disabled={!selectedItem}
             className={`w-full py-4 rounded-xl font-bold text-base transition-all
               ${selectedItem
-                ? 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-md active:scale-95'
-                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                ? 'bg-riivo-yellow text-riivo-navy hover:brightness-110 shadow-md active:scale-95'
+                : 'bg-riivo-border text-riivo-muted cursor-not-allowed'
               }`}
           >
             {selectedItem && currentItem
@@ -485,6 +541,7 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
         </div>
       </div>
 
+      </div>{/* close z-10 wrapper */}
     </div>
   )
 }

@@ -55,8 +55,8 @@ export default function NameSelectorPage() {
       />
 
       {/* Floating dropdown card — top center */}
-      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-50 bg-white rounded-xl shadow-lg px-6 py-4 min-w-[260px]">
-        <h2 className="text-xl font-bold text-emerald-700 mb-3">
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-50 bg-riivo-navy-light border border-riivo-border rounded-xl shadow-lg px-6 py-4 w-[min(90vw,320px)]">
+        <h2 className="text-xl font-pacifico text-riivo-yellow mb-3">
           🍽️ Who&apos;s hungry?
         </h2>
         <div ref={dropdownRef} className="relative">
@@ -69,18 +69,18 @@ export default function NameSelectorPage() {
               setSearch('')
             }}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            className="w-full border border-riivo-border bg-riivo-navy rounded-lg px-3 py-2 text-riivo-white placeholder-riivo-muted/50 focus:outline-none focus:ring-2 focus:ring-riivo-yellow"
           />
           {isOpen && (
-            <ul className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+            <ul className="absolute top-full left-0 right-0 mt-1 bg-riivo-navy-light border border-riivo-border rounded-lg shadow-lg max-h-48 overflow-y-auto">
               {filtered.length === 0 ? (
-                <li className="px-3 py-2 text-gray-400 text-sm">No match</li>
+                <li className="px-3 py-2 text-riivo-muted text-sm">No match</li>
               ) : (
                 filtered.map((person) => (
                   <li
                     key={person.name}
                     onClick={() => handleSelect(person)}
-                    className="px-3 py-2 hover:bg-emerald-50 cursor-pointer text-gray-700 text-sm"
+                    className="px-3 py-2 hover:bg-riivo-yellow/10 cursor-pointer text-riivo-white text-sm"
                   >
                     {person.name}
                   </li>
@@ -96,7 +96,7 @@ export default function NameSelectorPage() {
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50">
           <button
             onClick={handleContinue}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-full px-8 py-3 shadow-lg transition-all duration-300 opacity-100 translate-y-0"
+            className="bg-riivo-yellow hover:brightness-110 text-riivo-navy font-bold rounded-full px-8 py-3 min-h-[44px] shadow-lg transition-all duration-300 opacity-100 translate-y-0 font-fredoka"
             style={{ animation: 'slideUp 0.3s ease forwards' }}
           >
             Continue
