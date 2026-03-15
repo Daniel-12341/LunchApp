@@ -105,16 +105,16 @@
 | ADM-02 | Phase 4 | Pending |
 | ADM-03 | Phase 4 | Pending |
 | ADM-04 | Phase 4 | Pending |
-| UI-01 | Phase 2-4 | Pending |
-| UI-02 | Phase 2-4 | Pending |
-| UI-03 | Phase 2-4 | Pending |
-| UI-04 | Phase 2-4 | Pending |
+| UI-01 | Phase 4 | Pending |
+| UI-02 | Phase 4 | Pending |
+| UI-03 | Phase 4 | Pending |
+| UI-04 | Phase 4 | Pending |
 
 **Coverage:**
-- v1 requirements: 27 total
-- Mapped to phases: 27
+- v1 requirements: 30 total
+- Mapped to phases: 30
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-15*
-*Last updated: 2026-03-15 after initial definition*
+*Last updated: 2026-03-15 after roadmap creation*
