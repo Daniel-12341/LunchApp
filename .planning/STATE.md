@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Completed 01-foundation-01-PLAN.md
-last_updated: "2026-03-15T16:20:54.512Z"
-last_activity: 2026-03-15 — Roadmap created, ready to begin Phase 1 planning
+status: executing
+stopped_at: Completed 01-foundation-02-PLAN.md
+last_updated: "2026-03-15T16:21:37.685Z"
+last_activity: "2026-03-15 — Phase 1 Plan 02 complete: auth UI and route protection"
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-03-15)
 ## Current Position
 
 Phase: 1 of 4 (Foundation)
-Plan: 0 of 2 in current phase
-Status: Ready to plan
-Last activity: 2026-03-15 — Roadmap created, ready to begin Phase 1 planning
+Plan: 2 of 2 in current phase
+Status: In progress
+Last activity: 2026-03-15 — Phase 1 Plan 02 complete: auth UI and route protection
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -51,6 +51,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01-foundation P01 | 18 | 2 tasks | 4 files |
+| Phase 01-foundation P02 | 2 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -65,6 +66,8 @@ Recent decisions affecting current work:
 - WhatsApp sharing via wa.me link (no API integration)
 - [Phase 01-foundation]: profiles.id is plain UUID (no FK to auth.users) with nullable auth_user_id column for auth-linked rows, enabling org members without auth accounts to have profile rows
 - [Phase 01-foundation]: RLS policies use auth_user_id (not id) for admin role checks since profiles.id is not a FK to auth.users
+- [Phase 01-foundation]: Middleware redirects unauthenticated to / and authenticated away from / to /home; admin role check done in admin page (not middleware) to avoid extra DB query per request
+- [Phase 01-foundation]: Login form translates username to username@lunchapp.com before signInWithPassword; getUser() used on all server-side code
 
 ### Pending Todos
 
@@ -76,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T16:20:54.510Z
-Stopped at: Completed 01-foundation-01-PLAN.md
+Last session: 2026-03-15T16:21:37.682Z
+Stopped at: Completed 01-foundation-02-PLAN.md
 Resume file: None

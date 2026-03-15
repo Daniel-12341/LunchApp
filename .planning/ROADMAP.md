@@ -12,7 +12,7 @@ Four phases that build the app in delivery order: database foundation and auth f
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Supabase migrations, auth, seeded users, RLS policies
+- [x] **Phase 1: Foundation** - Supabase migrations, auth, seeded users, RLS policies (completed 2026-03-15)
 - [ ] **Phase 2: Name Selector** - Full-screen name picker with animated Leaflet map zoom
 - [ ] **Phase 3: Order + Share** - Lunch order page, submit to Supabase, WhatsApp link, confetti
 - [ ] **Phase 4: Admin + Polish** - Admin page, manual reset, edge function auto-reset, UI polish
@@ -88,7 +88,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 1/2 | In Progress|  |
+| 1. Foundation | 2/2 | Complete   | 2026-03-15 |
 | 2. Name Selector | 0/1 | Not started | - |
 | 3. Order + Share | 0/2 | Not started | - |
 | 4. Admin + Polish | 0/2 | Not started | - |

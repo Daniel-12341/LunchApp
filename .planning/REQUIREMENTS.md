@@ -7,8 +7,8 @@
 
 ### Authentication
 
-- [ ] **AUTH-01**: User can log in with username and password (UI shows username only, backend uses username@lunchapp.com)
-- [ ] **AUTH-02**: User session persists across browser refresh
+- [x] **AUTH-01**: User can log in with username and password (UI shows username only, backend uses username@lunchapp.com)
+- [x] **AUTH-02**: User session persists across browser refresh
 - [x] **AUTH-03**: Admin user (admin/admin123) is seeded on first run
 - [x] **AUTH-04**: Test users are seeded (Daniel, Nic, James, Sarah, Lara, Tom, Mike, Amy, Kate, Chris)
 - [x] **AUTH-05**: Role-based access: user and admin roles stored in profiles table
@@ -79,8 +79,8 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
+| AUTH-01 | Phase 1 | Complete |
+| AUTH-02 | Phase 1 | Complete |
 | AUTH-03 | Phase 1 | Complete |
 | AUTH-04 | Phase 1 | Complete |
 | AUTH-05 | Phase 1 | Complete |
