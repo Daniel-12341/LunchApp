@@ -23,9 +23,9 @@
 ### Name Selector
 
 - [x] **MAP-01**: Full-screen page with dropdown of 10 organisation members
-- [ ] **MAP-02**: Leaflet.js map of Western Cape with smooth zoom animation to selected person's location
+- [x] **MAP-02**: Leaflet.js map of Western Cape with smooth zoom animation to selected person's location
 - [x] **MAP-03**: Custom emoji markers with fun labels per person (e.g. Nic: "Pushing a pram")
-- [ ] **MAP-04**: Continue button appears after zoom, navigates to order page
+- [x] **MAP-04**: Continue button appears after zoom, navigates to order page
 
 ### Ordering
 
@@ -89,9 +89,9 @@
 | DB-03 | Phase 1 | Complete |
 | DB-04 | Phase 4 | Pending |
 | MAP-01 | Phase 2 | Complete |
-| MAP-02 | Phase 2 | Pending |
+| MAP-02 | Phase 2 | Complete |
 | MAP-03 | Phase 2 | Complete |
-| MAP-04 | Phase 2 | Pending |
+| MAP-04 | Phase 2 | Complete |
 | ORD-01 | Phase 3 | Pending |
 | ORD-02 | Phase 3 | Pending |
 | ORD-03 | Phase 3 | Pending |

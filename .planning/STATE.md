@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-name-selector 02-01-PLAN.md
-last_updated: "2026-03-15T17:30:22.031Z"
+stopped_at: Completed 02-name-selector 02-02-PLAN.md
+last_updated: "2026-03-15T17:34:36.646Z"
 last_activity: "2026-03-15 — Phase 1 Plan 02 complete: auth UI and route protection"
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -53,6 +53,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-foundation P01 | 18 | 2 tasks | 4 files |
 | Phase 01-foundation P02 | 2 | 2 tasks | 8 files |
 | Phase 02-name-selector P01 | 8m | 2 tasks | 4 files |
+| Phase 02-name-selector P02 | 2 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -70,6 +71,8 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: Middleware redirects unauthenticated to / and authenticated away from / to /home; admin role check done in admin page (not middleware) to avoid extra DB query per request
 - [Phase 01-foundation]: Login form translates username to username@lunchapp.com before signInWithPassword; getUser() used on all server-side code
 - [Phase 02-name-selector]: PEOPLE array in people.ts is a static client-side mirror of seed data — no DB query needed for map rendering
+- [Phase 02-name-selector]: Next.js 16 forbids ssr:false dynamic import in Server Components — NameSelectorLoader 'use client' wrapper pattern used
+- [Phase 02-name-selector]: L.divIcon used for all Leaflet markers to avoid default PNG 404 errors in Next.js
 
 ### Pending Todos
 
@@ -81,6 +84,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T17:30:22.029Z
-Stopped at: Completed 02-name-selector 02-01-PLAN.md
+Last session: 2026-03-15T17:34:36.644Z
+Stopped at: Completed 02-name-selector 02-02-PLAN.md
 Resume file: None
