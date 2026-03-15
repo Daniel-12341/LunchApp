@@ -76,11 +76,12 @@ Plans:
   3. Admin can export a plain-text WhatsApp summary of all current orders
   4. Orders are automatically archived every Sunday at 21:00 UTC via Edge Function
   5. App is visually polished (playful fonts, Framer Motion transitions, mobile-responsive) across all pages
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 04-01: Admin page — orders table, manual archive button, WhatsApp export
-- [ ] 04-02: Edge Function weekly auto-reset, Framer Motion polish, mobile layout review
+- [ ] 04-01-PLAN.md — Admin page: server actions, order list, WhatsApp export, manual archive, credential update
+- [ ] 04-02-PLAN.md — Visual polish: Pacifico + Fredoka One fonts, Framer Motion page transitions, mobile responsiveness
+- [ ] 04-03-PLAN.md — Edge Function weekly auto-archive with pg_cron schedule
 
 ## Progress
 
@@ -92,4 +93,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation | 2/2 | Complete    | 2026-03-15 |
 | 2. Name Selector | 2/2 | Complete    | 2026-03-15 |
 | 3. Order + Share | 2/2 | Complete   | 2026-03-15 |
-| 4. Admin + Polish | 0/2 | Not started | - |
+| 4. Admin + Polish | 0/3 | Not started | - |
