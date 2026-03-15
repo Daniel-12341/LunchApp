@@ -1,0 +1,120 @@
+# Requirements: LunchApp
+
+**Defined:** 2026-03-15
+**Core Value:** Users can quickly and enjoyably place their weekly lunch order and have it shared to WhatsApp in one click.
+
+## v1 Requirements
+
+### Authentication
+
+- [ ] **AUTH-01**: User can log in with username and password (UI shows username only, backend uses username@lunchapp.com)
+- [ ] **AUTH-02**: User session persists across browser refresh
+- [ ] **AUTH-03**: Admin user (admin/admin123) is seeded on first run
+- [ ] **AUTH-04**: Test users are seeded (Daniel, Nic, James, Sarah, Lara, Tom, Mike, Amy, Kate, Chris)
+- [ ] **AUTH-05**: Role-based access: user and admin roles stored in profiles table
+
+### Database
+
+- [ ] **DB-01**: Profiles table with id, username, role, created_at and RLS policies
+- [ ] **DB-02**: Orders table with id, user_id, selected_name, meal_category, meal_name, price, customisation, week_number, year, archived, created_at
+- [ ] **DB-03**: RLS: users read/write own orders, admin reads all orders
+- [ ] **DB-04**: Weekly auto-reset Edge Function archives orders Sunday 21:00 UTC
+
+### Name Selector
+
+- [ ] **MAP-01**: Full-screen page with dropdown of 10 organisation members
+- [ ] **MAP-02**: Leaflet.js map of Western Cape with smooth zoom animation to selected person's location
+- [ ] **MAP-03**: Custom emoji markers with fun labels per person (e.g. Nic: "Pushing a pram")
+- [ ] **MAP-04**: Continue button appears after zoom, navigates to order page
+
+### Ordering
+
+- [ ] **ORD-01**: Lunch order page with fun header, food background images, selected name displayed
+- [ ] **ORD-02**: Four meal categories (Pizza, Pasta, Salad, Panini) with priced menu items
+- [ ] **ORD-03**: "My Previous Order" shows last order with one-click re-select
+- [ ] **ORD-04**: "Surprise Me!" randomly selects a meal with fun animation
+- [ ] **ORD-05**: Special requests text field for customisation
+- [ ] **ORD-06**: Order saved to Supabase orders table on submit
+
+### Sharing
+
+- [ ] **SHR-01**: WhatsApp link generated with all weekly orders formatted as a clean list
+- [ ] **SHR-02**: WhatsApp link opens in new tab after submit
+- [ ] **SHR-03**: Confetti animation and success message shown after order submission
+
+### Admin
+
+- [ ] **ADM-01**: Admin page at /admin, only accessible to admin role
+- [ ] **ADM-02**: Table showing all current week orders (name, meal, price, customisation, time)
+- [ ] **ADM-03**: Button to manually archive current week orders
+- [ ] **ADM-04**: Button to export orders as text summary for WhatsApp
+
+### UI/UX
+
+- [ ] **UI-01**: Fun, colourful, playful design with Tailwind CSS
+- [ ] **UI-02**: Framer Motion animations (zoom, confetti, transitions)
+- [ ] **UI-03**: Google Fonts (Pacifico/Fredoka One) for headers
+- [ ] **UI-04**: Mobile-friendly responsive layout
+
+## v2 Requirements
+
+### Enhancements
+
+- **ENH-01**: Editable menu items via admin UI
+- **ENH-02**: User self-registration
+- **ENH-03**: Order history page per user
+- **ENH-04**: Push notifications when orders are due
+
+## Out of Scope
+
+| Feature | Reason |
+|---------|--------|
+| Email verification / OTP | Internal tool, simplicity over security |
+| OAuth / social login | Not needed for small team |
+| Payment processing | Orders are informational only |
+| Real-time updates | Not needed for weekly ordering |
+| User management UI | Admin seeds users directly |
+
+## Traceability
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| AUTH-01 | Phase 1 | Pending |
+| AUTH-02 | Phase 1 | Pending |
+| AUTH-03 | Phase 1 | Pending |
+| AUTH-04 | Phase 1 | Pending |
+| AUTH-05 | Phase 1 | Pending |
+| DB-01 | Phase 1 | Pending |
+| DB-02 | Phase 1 | Pending |
+| DB-03 | Phase 1 | Pending |
+| DB-04 | Phase 4 | Pending |
+| MAP-01 | Phase 2 | Pending |
+| MAP-02 | Phase 2 | Pending |
+| MAP-03 | Phase 2 | Pending |
+| MAP-04 | Phase 2 | Pending |
+| ORD-01 | Phase 3 | Pending |
+| ORD-02 | Phase 3 | Pending |
+| ORD-03 | Phase 3 | Pending |
+| ORD-04 | Phase 3 | Pending |
+| ORD-05 | Phase 3 | Pending |
+| ORD-06 | Phase 3 | Pending |
+| SHR-01 | Phase 3 | Pending |
+| SHR-02 | Phase 3 | Pending |
+| SHR-03 | Phase 3 | Pending |
+| ADM-01 | Phase 4 | Pending |
+| ADM-02 | Phase 4 | Pending |
+| ADM-03 | Phase 4 | Pending |
+| ADM-04 | Phase 4 | Pending |
+| UI-01 | Phase 2-4 | Pending |
+| UI-02 | Phase 2-4 | Pending |
+| UI-03 | Phase 2-4 | Pending |
+| UI-04 | Phase 2-4 | Pending |
+
+**Coverage:**
+- v1 requirements: 27 total
+- Mapped to phases: 27
+- Unmapped: 0
+
+---
+*Requirements defined: 2026-03-15*
+*Last updated: 2026-03-15 after initial definition*
