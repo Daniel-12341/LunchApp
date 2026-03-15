@@ -37,9 +37,16 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  // Authenticated users visiting the login page get sent to /home
+  // Authenticated users visiting the login page get routed by role
   if (user && pathname === '/') {
-    return NextResponse.redirect(new URL('/home', request.url))
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('auth_user_id', user.id)
+      .single()
+
+    const dest = profile?.role === 'admin' ? '/admin' : '/home'
+    return NextResponse.redirect(new URL(dest, request.url))
   }
 
   return supabaseResponse

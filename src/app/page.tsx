@@ -19,7 +19,7 @@ export default function LoginPage() {
     const supabase = createClient()
     const email = `${username}@lunchapp.com`
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { error, data } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
       setErrorMsg('Oops! Wrong username or password. Try again.')
@@ -27,7 +27,14 @@ export default function LoginPage() {
       return
     }
 
-    router.push('/home')
+    // Check if user is admin — route to /admin, otherwise /home
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('auth_user_id', data.user.id)
+      .single()
+
+    router.push(profile?.role === 'admin' ? '/admin' : '/home')
     router.refresh()
   }
 
@@ -48,7 +55,7 @@ export default function LoginPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="text-5xl mb-3">🍽️</div>
-            <h1 className="text-3xl font-pacifico text-riivo-yellow tracking-tight">
+            <h1 className="text-3xl font-fredoka font-bold text-riivo-yellow tracking-tight">
               What&apos;s for lunch?
             </h1>
             <p className="text-riivo-muted mt-2 text-sm font-fredoka">

@@ -276,7 +276,7 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
         <div className="relative z-10 w-full max-w-md bg-riivo-navy-light border border-riivo-border rounded-2xl shadow-lg p-6 space-y-5 ring-2 ring-riivo-yellow/30">
           <div className="text-center">
             <div className="text-5xl mb-3">🎉</div>
-            <h2 className="text-2xl font-pacifico text-riivo-yellow">Order Placed!</h2>
+            <h2 className="text-2xl font-fredoka font-bold text-riivo-yellow">Order Placed!</h2>
             <p className="text-sm text-riivo-muted mt-1">Your order is confirmed for this week.</p>
           </div>
 
@@ -364,7 +364,7 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
       {/* Header */}
       <div className="bg-riivo-navy-light/70 backdrop-blur-sm border-b border-riivo-border px-4 py-5 text-center">
         <div className="text-3xl mb-1">🍽️</div>
-        <h1 className="text-2xl font-pacifico text-riivo-yellow">
+        <h1 className="text-2xl font-fredoka font-bold text-riivo-yellow">
           Hey {name}! What&apos;s for lunch?
         </h1>
         <p className="text-sm text-riivo-muted mt-1">Pick your meal below</p>

@@ -35,14 +35,14 @@ function buildWhatsAppMessage(orders: Order[]): string {
     return acc
   }, {})
 
-  const lines: string[] = ["*This Week's Lunch Orders*", '']
+  const lines: string[] = ["This Week's Lunch Orders", '']
   for (const cat of CATEGORY_ORDER) {
     const catOrders = grouped[cat]
     if (catOrders.length === 0) continue
-    lines.push(`${CATEGORY_EMOJIS[cat]} *${cat}*`)
+    lines.push(cat.toUpperCase())
     for (const o of catOrders) {
       const special = o.customisation ? ` (${o.customisation})` : ''
-      lines.push(`• ${o.selected_name} — ${o.meal_name} R${o.price}${special}`)
+      lines.push(`- ${o.selected_name} - ${o.meal_name} R${o.price}${special}`)
     }
     lines.push('')
   }
@@ -94,13 +94,13 @@ export default function AdminPageClient({ orders: initialOrders, weekNumber, yea
           {archiveSuccess ? (
             <>
               <div className="text-6xl mb-4">✅</div>
-              <h2 className="text-2xl font-pacifico text-riivo-yellow mb-2">Week archived successfully!</h2>
+              <h2 className="text-2xl font-fredoka font-bold text-riivo-yellow mb-2">Week archived successfully!</h2>
               <p className="text-riivo-muted">Fresh week started.</p>
             </>
           ) : (
             <>
               <div className="text-6xl mb-4">🍽️</div>
-              <h2 className="text-2xl font-pacifico text-riivo-yellow mb-2">No orders yet this week.</h2>
+              <h2 className="text-2xl font-fredoka font-bold text-riivo-yellow mb-2">No orders yet this week.</h2>
               <p className="text-riivo-muted">Check back once the team starts ordering.</p>
             </>
           )}
@@ -114,7 +114,7 @@ export default function AdminPageClient({ orders: initialOrders, weekNumber, yea
       <div className="max-w-2xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-3xl font-pacifico text-riivo-yellow mb-1">Admin Dashboard</h1>
+          <h1 className="text-3xl font-fredoka font-bold text-riivo-yellow mb-1">Admin Dashboard</h1>
           <p className="text-riivo-muted text-sm">
             This Week&apos;s Orders ({currentOrders.length} of 18)
           </p>

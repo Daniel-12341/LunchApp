@@ -12,15 +12,15 @@ SET
 WHERE email = 'admin@lunchapp.com';
 
 -- Update auth.identities to match new email
+-- Note: email column is generated from identity_data->>'email', so only update identity_data
 UPDATE auth.identities
 SET
   identity_data = jsonb_set(
     jsonb_set(identity_data, '{email}', '"username123@lunchapp.com"'),
     '{email_verified}', 'true'
   ),
-  email = 'username123@lunchapp.com',
   updated_at = now()
-WHERE email = 'admin@lunchapp.com';
+WHERE identity_data->>'email' = 'admin@lunchapp.com';
 
 -- Update profiles username
 UPDATE public.profiles
