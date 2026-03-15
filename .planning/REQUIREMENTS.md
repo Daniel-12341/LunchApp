@@ -29,12 +29,12 @@
 
 ### Ordering
 
-- [ ] **ORD-01**: Lunch order page with fun header, food background images, selected name displayed
-- [ ] **ORD-02**: Four meal categories (Pizza, Pasta, Salad, Panini) with priced menu items
-- [ ] **ORD-03**: "My Previous Order" shows last order with one-click re-select
-- [ ] **ORD-04**: "Surprise Me!" randomly selects a meal with fun animation
-- [ ] **ORD-05**: Special requests text field for customisation
-- [ ] **ORD-06**: Order saved to Supabase orders table on submit
+- [x] **ORD-01**: Lunch order page with fun header, food background images, selected name displayed
+- [x] **ORD-02**: Four meal categories (Pizza, Pasta, Salad, Panini) with priced menu items
+- [x] **ORD-03**: "My Previous Order" shows last order with one-click re-select
+- [x] **ORD-04**: "Surprise Me!" randomly selects a meal with fun animation
+- [x] **ORD-05**: Special requests text field for customisation
+- [x] **ORD-06**: Order saved to Supabase orders table on submit
 
 ### Sharing
 
@@ -92,12 +92,12 @@
 | MAP-02 | Phase 2 | Complete |
 | MAP-03 | Phase 2 | Complete |
 | MAP-04 | Phase 2 | Complete |
-| ORD-01 | Phase 3 | Pending |
-| ORD-02 | Phase 3 | Pending |
-| ORD-03 | Phase 3 | Pending |
-| ORD-04 | Phase 3 | Pending |
-| ORD-05 | Phase 3 | Pending |
-| ORD-06 | Phase 3 | Pending |
+| ORD-01 | Phase 3 | Complete |
+| ORD-02 | Phase 3 | Complete |
+| ORD-03 | Phase 3 | Complete |
+| ORD-04 | Phase 3 | Complete |
+| ORD-05 | Phase 3 | Complete |
+| ORD-06 | Phase 3 | Complete |
 | SHR-01 | Phase 3 | Pending |
 | SHR-02 | Phase 3 | Pending |
 | SHR-03 | Phase 3 | Pending |
