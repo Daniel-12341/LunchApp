@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Pacifico, Fredoka } from "next/font/google";
 import "./globals.css";
+import PageTransition from "@/components/PageTransition";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const pacifico = Pacifico({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-pacifico",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fredoka = Fredoka({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-fredoka",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -24,10 +29,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${pacifico.variable} ${fredoka.variable} antialiased`}>
+        <PageTransition>{children}</PageTransition>
       </body>
     </html>
   );
