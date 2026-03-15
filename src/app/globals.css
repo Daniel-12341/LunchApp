@@ -77,4 +77,5 @@ body {
 /* Leaflet container overrides */
 .leaflet-container {
   font-family: inherit;
+  z-index: 0;
 }
