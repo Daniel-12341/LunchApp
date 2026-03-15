@@ -30,3 +30,51 @@ body {
     transform: rotate(360deg);
   }
 }
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Leaflet marker overrides */
+.emoji-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: opacity 0.3s ease;
+  text-align: center;
+}
+.emoji-marker .marker-location {
+  font-size: 0.65rem;
+  color: #374151;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+.marker-dimmed {
+  opacity: 0.35;
+}
+.marker-selected {
+  opacity: 1;
+}
+@keyframes markerBounce {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-12px); }
+  60% { transform: translateY(-6px); }
+}
+.marker-bounce {
+  animation: markerBounce 0.6s ease 3;
+}
+
+/* Leaflet container overrides */
+.leaflet-container {
+  font-family: inherit;
+}
