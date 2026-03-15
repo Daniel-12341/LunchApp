@@ -51,10 +51,10 @@
 
 ### UI/UX
 
-- [ ] **UI-01**: Fun, colourful, playful design with Tailwind CSS
-- [ ] **UI-02**: Framer Motion animations (zoom, confetti, transitions)
-- [ ] **UI-03**: Google Fonts (Pacifico/Fredoka One) for headers
-- [ ] **UI-04**: Mobile-friendly responsive layout
+- [x] **UI-01**: Fun, colourful, playful design with Tailwind CSS
+- [x] **UI-02**: Framer Motion animations (zoom, confetti, transitions)
+- [x] **UI-03**: Google Fonts (Pacifico/Fredoka One) for headers
+- [x] **UI-04**: Mobile-friendly responsive layout
 
 ## v2 Requirements
 
@@ -105,10 +105,10 @@
 | ADM-02 | Phase 4 | Complete |
 | ADM-03 | Phase 4 | Complete |
 | ADM-04 | Phase 4 | Complete |
-| UI-01 | Phase 4 | Pending |
-| UI-02 | Phase 4 | Pending |
-| UI-03 | Phase 4 | Pending |
-| UI-04 | Phase 4 | Pending |
+| UI-01 | Phase 4 | Complete |
+| UI-02 | Phase 4 | Complete |
+| UI-03 | Phase 4 | Complete |
+| UI-04 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 30 total

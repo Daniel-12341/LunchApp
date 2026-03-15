@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-admin-polish/04-01-PLAN.md
-last_updated: "2026-03-15T19:51:53.849Z"
+stopped_at: Completed 04-admin-polish 04-02-PLAN.md
+last_updated: "2026-03-15T19:53:30.471Z"
 last_activity: "2026-03-15 — Phase 1 Plan 02 complete: auth UI and route protection"
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 9
-  completed_plans: 7
+  completed_plans: 8
   percent: 0
 ---
 
@@ -57,6 +57,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-order-share P01 | 12 | 2 tasks | 4 files |
 | Phase 03-order-share P02 | 5min | 2 tasks | 1 files |
 | Phase 04-admin-polish P01 | 10min | 2 tasks | 4 files |
+| Phase 04-admin-polish P02 | 10min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,9 @@ Recent decisions affecting current work:
 - [Phase 03-order-share]: pendingOrder state carries all order data through confirm/success screens without re-deriving from selectedItem
 - [Phase 04-admin-polish]: getWeeklyOrders returns week+year alongside data so page.tsx can pass them to client without a second calculation
 - [Phase 04-admin-polish]: archiveWeek uses .select('id') after UPDATE to get count of archived rows (Supabase requires select to return updated rows)
+- [Phase 04-admin-polish]: usePathname as AnimatePresence key (not FrozenRouter) to avoid Next.js internal import breakage
+- [Phase 04-admin-polish]: Fredoka weight 400 used (Fredoka One deprecated; Fredoka is current variable-weight replacement)
+- [Phase 04-admin-polish]: Body text stays Arial/Helvetica; Pacifico/Fredoka applied only to specific elements via .font-pacifico/.font-fredoka utility classes
 
 ### Pending Todos
 
@@ -93,6 +97,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T19:51:53.824Z
-Stopped at: Completed 04-admin-polish/04-01-PLAN.md
+Last session: 2026-03-15T19:53:30.450Z
+Stopped at: Completed 04-admin-polish 04-02-PLAN.md
 Resume file: None
