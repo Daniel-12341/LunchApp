@@ -40,14 +40,15 @@ Plans:
 **Depends on**: Phase 1
 **Requirements**: MAP-01, MAP-02, MAP-03, MAP-04
 **Success Criteria** (what must be TRUE):
-  1. User sees a full-screen page with a dropdown of all 10 organisation members
+  1. User sees a full-screen page with a dropdown of all 18 organisation members
   2. Selecting a name triggers a smooth Leaflet map zoom to that person's location
   3. Each person's marker shows their custom emoji and fun label
   4. A Continue button appears after the zoom and navigates to the order page
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: Name selector page with Leaflet map, locations, emoji markers, zoom animation
+- [ ] 02-01-PLAN.md — Database migration (location fields), updated seed (18 members), TypeScript data, /order placeholder
+- [ ] 02-02-PLAN.md — Leaflet map page with emoji markers, flyTo animation, dropdown, Continue button
 
 ### Phase 3: Order + Share
 **Goal**: User can place their lunch order and share it to WhatsApp in one click
@@ -89,6 +90,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete    | 2026-03-15 |
-| 2. Name Selector | 0/1 | Not started | - |
+| 2. Name Selector | 0/2 | Not started | - |
 | 3. Order + Share | 0/2 | Not started | - |
 | 4. Admin + Polish | 0/2 | Not started | - |
