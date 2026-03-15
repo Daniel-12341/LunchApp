@@ -29,11 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Admin account (admin/admin123) and 10 test users exist on first run
   4. RLS policies prevent a regular user from reading another user's orders
   5. Profiles and orders tables exist with correct columns and constraints
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: Supabase migrations — profiles table, orders table, RLS policies, seed data
-- [ ] 01-02: Auth UI — login page, session handling, protected route wrapper
+- [ ] 01-01-PLAN.md — Database schema: profiles table, orders table, RLS policies, seed data
+- [ ] 01-02-PLAN.md — Auth UI: Supabase client setup, middleware, login page, protected routes
 
 ### Phase 2: Name Selector
 **Goal**: User can pick their name and watch the map zoom to their Western Cape location
