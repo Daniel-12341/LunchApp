@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-admin-polish 04-02-PLAN.md
-last_updated: "2026-03-15T19:53:30.471Z"
+stopped_at: Completed 04-admin-polish 04-03-PLAN.md
+last_updated: "2026-03-15T19:56:34.080Z"
 last_activity: "2026-03-15 — Phase 1 Plan 02 complete: auth UI and route protection"
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 9
-  completed_plans: 8
+  completed_plans: 9
   percent: 0
 ---
 
@@ -58,6 +58,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-order-share P02 | 5min | 2 tasks | 1 files |
 | Phase 04-admin-polish P01 | 10min | 2 tasks | 4 files |
 | Phase 04-admin-polish P02 | 10min | 2 tasks | 7 files |
+| Phase 04-admin-polish P03 | 1min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -86,6 +87,9 @@ Recent decisions affecting current work:
 - [Phase 04-admin-polish]: usePathname as AnimatePresence key (not FrozenRouter) to avoid Next.js internal import breakage
 - [Phase 04-admin-polish]: Fredoka weight 400 used (Fredoka One deprecated; Fredoka is current variable-weight replacement)
 - [Phase 04-admin-polish]: Body text stays Arial/Helvetica; Pacifico/Fredoka applied only to specific elements via .font-pacifico/.font-fredoka utility classes
+- [Phase 04-admin-polish]: Service role key used in Edge Function to bypass RLS for admin-level bulk archive update
+- [Phase 04-admin-polish]: ISO week calculation copied verbatim from orderActions.ts into Edge Function to guarantee matching week boundaries
+- [Phase 04-admin-polish]: pg_cron migration includes inline manual alternative with hardcoded URL/key for simpler setup without Postgres custom settings
 
 ### Pending Todos
 
@@ -97,6 +101,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T19:53:30.450Z
-Stopped at: Completed 04-admin-polish 04-02-PLAN.md
+Last session: 2026-03-15T19:56:34.076Z
+Stopped at: Completed 04-admin-polish 04-03-PLAN.md
 Resume file: None

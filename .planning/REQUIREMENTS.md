@@ -18,7 +18,7 @@
 - [x] **DB-01**: Profiles table with id, username, role, created_at and RLS policies
 - [x] **DB-02**: Orders table with id, user_id, selected_name, meal_category, meal_name, price, customisation, week_number, year, archived, created_at
 - [x] **DB-03**: RLS: users read/write own orders, admin reads all orders
-- [ ] **DB-04**: Weekly auto-reset Edge Function archives orders Sunday 21:00 UTC
+- [x] **DB-04**: Weekly auto-reset Edge Function archives orders Sunday 21:00 UTC
 
 ### Name Selector
 
@@ -87,7 +87,7 @@
 | DB-01 | Phase 1 | Complete |
 | DB-02 | Phase 1 | Complete |
 | DB-03 | Phase 1 | Complete |
-| DB-04 | Phase 4 | Pending |
+| DB-04 | Phase 4 | Complete |
 | MAP-01 | Phase 2 | Complete |
 | MAP-02 | Phase 2 | Complete |
 | MAP-03 | Phase 2 | Complete |
