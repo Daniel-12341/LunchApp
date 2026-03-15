@@ -6,14 +6,14 @@
 -- Run after migrations: supabase db push (applies migrations then runs seed.sql)
 -- Passwords: user@lunchapp.com / password  |  admin@lunchapp.com / admin123
 
-create extension if not exists "pgcrypto";
+create extension if not exists "pgcrypto" with schema extensions;
 
 do $$
 declare
   v_user_id  uuid := gen_random_uuid();
   v_admin_id uuid := gen_random_uuid();
-  v_user_pw  text := crypt('password', gen_salt('bf'));
-  v_admin_pw text := crypt('admin123', gen_salt('bf'));
+  v_user_pw  text := extensions.crypt('password', extensions.gen_salt('bf'));
+  v_admin_pw text := extensions.crypt('admin123', extensions.gen_salt('bf'));
 begin
 
   -- ----------------------------------------------------------------
