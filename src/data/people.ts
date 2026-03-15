@@ -18,7 +18,7 @@ export const PEOPLE: Person[] = [
   { name: 'Francois',  locationName: 'Foreshore',      lat: -33.9170, lng: 18.4260, emoji: '🦾🏆', funLabel: 'Hyrox man' },
   { name: 'James',     locationName: 'In the sea',     lat: -34.1500, lng: 18.7000, emoji: '🐟🎣', funLabel: 'The tuna specialist' },
   { name: 'Jenna',     locationName: 'Somerset West',  lat: -34.0825, lng: 18.8430, emoji: '🥾⛰️', funLabel: 'Hiker' },
-  { name: 'Lloyd',     locationName: 'Simonstown',     lat: -34.1908, lng: 18.4326, emoji: '🏔️🧗', funLabel: 'Mountain adventurer' },
+  { name: 'Lloyd',     locationName: 'Simonstown',     lat: -34.1908, lng: 18.4326, emoji: '💍🏔️🧗', funLabel: 'Mountain adventurer' },
   { name: 'Luc',       locationName: 'Muizenberg',     lat: -34.1088, lng: 18.4716, emoji: '⚽🌊', funLabel: 'Soccer by the sea' },
   { name: 'Lungile',   locationName: 'Rondebosch',     lat: -33.9550, lng: 18.4690, emoji: '😂🤪', funLabel: 'Life of the party' },
   { name: 'Michael',   locationName: 'Greyton',        lat: -34.0350, lng: 19.6130, emoji: '♟️🧠', funLabel: 'Chess strategist' },
