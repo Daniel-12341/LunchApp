@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { getWeeklyOrders } from '@/utils/adminActions'
+import { getActiveRestaurants } from '@/utils/settingsActions'
 import AdminPageClient from './AdminPageClient'
 
 export default async function AdminPage() {
@@ -19,7 +20,10 @@ export default async function AdminPage() {
 
   if (profile?.role !== 'admin') redirect('/')
 
-  const { data: orders, week, year } = await getWeeklyOrders()
+  const [{ data: orders, week, year }, { data: activeRestaurants }] = await Promise.all([
+    getWeeklyOrders(),
+    getActiveRestaurants(),
+  ])
 
-  return <AdminPageClient orders={orders} weekNumber={week} year={year} />
+  return <AdminPageClient orders={orders} weekNumber={week} year={year} activeRestaurants={activeRestaurants} />
 }

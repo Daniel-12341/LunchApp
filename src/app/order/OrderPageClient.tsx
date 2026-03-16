@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import confetti from 'canvas-confetti'
 import { createClient } from '@/utils/supabase/client'
-import { MENU, MenuItem } from '@/data/menu'
+import { getRestaurant, RESTAURANTS, MenuItem, SPICE_LEVELS, SpiceLevel } from '@/data/menu'
 import { getPreviousOrder, saveOrder } from '@/utils/orderActions'
 
 type PreviousOrder = {
@@ -12,6 +12,7 @@ type PreviousOrder = {
   meal_category: string
   price: number
   customisation: string | null
+  restaurant?: string | null
 }
 
 type SpinItem = {
@@ -31,26 +32,31 @@ type Step = 'select' | 'confirm' | 'success' | 'done'
 interface OrderPageClientProps {
   name: string
   userId: string
+  restaurant: string
 }
 
 const FOOD_BACKGROUNDS = [
-  'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&q=70', // pizza
-  'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&q=70', // pizza 2
-  'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=1200&q=70', // pasta
-  'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=1200&q=70', // pasta 2
-  'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&q=70', // salad
-  'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=1200&q=70', // panini
-  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=70', // food spread
-  'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=1200&q=70', // food platter
+  'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&q=70',
+  'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&q=70',
+  'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=1200&q=70',
+  'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=1200&q=70',
+  'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&q=70',
+  'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=1200&q=70',
+  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=70',
+  'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=1200&q=70',
 ]
 
-export default function OrderPageClient({ name, userId }: OrderPageClientProps) {
+export default function OrderPageClient({ name, userId, restaurant: restaurantId }: OrderPageClientProps) {
   const router = useRouter()
+  const rest = getRestaurant(restaurantId) ?? RESTAURANTS[0]
+  const MENU = rest.menu
+
   const [signingOut, setSigningOut] = useState(false)
   const [bgImage] = useState(() => FOOD_BACKGROUNDS[Math.floor(Math.random() * FOOD_BACKGROUNDS.length)])
   const [activeTab, setActiveTab] = useState(0)
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null)
   const [specialRequests, setSpecialRequests] = useState('')
+  const [spiceLevel, setSpiceLevel] = useState<SpiceLevel | null>(null)
   const [previousOrder, setPreviousOrder] = useState<PreviousOrder | null>(null)
   const [isSpinning, setIsSpinning] = useState(false)
   const [spinDisplayItem, setSpinDisplayItem] = useState<SpinItem | null>(null)
@@ -63,6 +69,7 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
     customisation: string
     userId: string
     selectedName: string
+    restaurant: string
   }>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
@@ -116,6 +123,8 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
 
   function handleReSelectPrevious() {
     if (!previousOrder) return
+    // Only re-select if the previous order was from the same restaurant
+    if (previousOrder.restaurant && previousOrder.restaurant !== rest.id) return
     const catIdx = MENU.findIndex(cat => cat.name === previousOrder.meal_category)
     if (catIdx === -1) return
     const itemIdx = MENU[catIdx].items.findIndex(item => item.name === previousOrder.meal_name)
@@ -133,8 +142,21 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
     setSelectedItem(prev => prev ? { ...prev, useAltPrice: !prev.useAltPrice } : null)
   }
 
+  function buildCustomisation(): string {
+    const parts: string[] = []
+    if (rest.hasSpiceLevel && spiceLevel) {
+      parts.push(spiceLevel)
+    }
+    if (specialRequests.trim()) {
+      parts.push(specialRequests.trim())
+    }
+    return parts.join(' — ')
+  }
+
   function handleSubmit() {
     if (!selectedItem) return
+    // Require spice level for Tadka
+    if (rest.hasSpiceLevel && !spiceLevel) return
     const cat = MENU[selectedItem.categoryIndex]
     const item = cat.items[selectedItem.itemIndex]
     const price = selectedItem.useAltPrice && item.priceAlt ? item.priceAlt : item.price
@@ -142,9 +164,10 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
       mealName: item.name,
       mealCategory: cat.name,
       price,
-      customisation: specialRequests,
+      customisation: buildCustomisation(),
       userId,
       selectedName: name,
+      restaurant: rest.id,
     }
     setPendingOrder(order)
     setSubmitError(null)
@@ -163,6 +186,7 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
       mealName: pendingOrder.mealName,
       price: pendingOrder.price,
       customisation: pendingOrder.customisation || undefined,
+      restaurant: pendingOrder.restaurant,
     })
 
     if (result.error) {
@@ -192,9 +216,17 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
     ? (selectedItem?.useAltPrice && currentItem.priceAlt ? currentItem.priceAlt : currentItem.price)
     : null
 
-  const previousCatEmoji = previousOrder
+  const previousMatchesRestaurant = previousOrder &&
+    (!previousOrder.restaurant || previousOrder.restaurant === rest.id) &&
+    MENU.some(cat => cat.name === previousOrder.meal_category &&
+      cat.items.some(item => item.name === previousOrder.meal_name))
+
+  const previousCatEmoji = previousMatchesRestaurant && previousOrder
     ? MENU.find(cat => cat.name === previousOrder.meal_category)?.emoji ?? ''
     : ''
+
+  // Whether submit is allowed
+  const canSubmit = selectedItem && (!rest.hasSpiceLevel || spiceLevel)
 
   // Confirmation screen
   if (step === 'confirm' && pendingOrder) {
@@ -211,6 +243,10 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
           </div>
 
           <div className="bg-riivo-navy rounded-xl border border-riivo-border p-4 space-y-3">
+            <div>
+              <div className="text-xs font-semibold text-riivo-yellow uppercase tracking-wide mb-1">Restaurant</div>
+              <div className="text-sm text-riivo-muted">{rest.emoji} {rest.name}</div>
+            </div>
             <div>
               <div className="text-xs font-semibold text-riivo-yellow uppercase tracking-wide mb-1">Meal</div>
               <div className="text-lg font-bold text-riivo-white">{pendingOrder.mealName}</div>
@@ -286,6 +322,10 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
 
           <div className="bg-riivo-navy rounded-xl border border-riivo-border p-4 space-y-3">
             <div>
+              <div className="text-xs font-semibold text-riivo-yellow uppercase tracking-wide mb-1">Restaurant</div>
+              <div className="text-sm text-riivo-muted">{rest.emoji} {rest.name}</div>
+            </div>
+            <div>
               <div className="text-xs font-semibold text-riivo-yellow uppercase tracking-wide mb-1">Meal</div>
               <div className="text-lg font-bold text-riivo-white">{pendingOrder.mealName}</div>
             </div>
@@ -318,35 +358,23 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
     )
   }
 
-  // Done screen — faint overlay with food category background
+  // Done screen
   if (step === 'done' && pendingOrder) {
     const doneCat = MENU.find(c => c.name === pendingOrder.mealCategory)
-    const categoryImages: Record<string, string> = {
-      Pizza: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',
-      Pasta: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800&q=80',
-      Salad: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',
-      Panini: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800&q=80',
-    }
-    const bgImage = categoryImages[pendingOrder.mealCategory] ?? categoryImages.Pizza
-
     return (
       <div className="min-h-screen relative flex items-center justify-center">
-        {/* Background image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${bgImage})` }}
         />
-        {/* Faint overlay */}
         <div className="absolute inset-0 bg-riivo-navy/75 backdrop-blur-sm" />
-
-        {/* Content */}
         <div className="relative z-10 text-center px-6">
           <div className="text-6xl mb-6">{doneCat?.emoji ?? '🍽️'}</div>
           <h1 className="text-3xl font-extrabold text-riivo-white mb-3">
             Your weekly order is complete
           </h1>
           <p className="text-riivo-yellow text-lg font-semibold">
-            {pendingOrder.mealName} — R{pendingOrder.price}
+            {rest.emoji} {rest.name} — {pendingOrder.mealName} — R{pendingOrder.price}
           </p>
         </div>
       </div>
@@ -368,23 +396,30 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
       {/* Header */}
       <div className="relative bg-riivo-navy-light/70 backdrop-blur-sm border-b border-riivo-border px-4 py-5 text-center">
         <button
+          onClick={() => router.push(`/restaurant?name=${encodeURIComponent(name)}`)}
+          className="absolute top-4 left-4 bg-riivo-navy-light/80 border border-riivo-border text-riivo-muted hover:text-riivo-white rounded-lg px-3 py-1.5 text-xs transition"
+        >
+          &larr; Back
+        </button>
+        <button
           onClick={async () => {
             setSigningOut(true)
             const supabase = createClient()
             await supabase.auth.signOut()
-            router.push('/')
-            router.refresh()
+            window.location.href = '/'
           }}
           disabled={signingOut}
           className="absolute top-4 right-4 bg-riivo-navy-light/80 border border-riivo-border text-riivo-muted hover:text-riivo-white rounded-lg px-3 py-1.5 text-xs transition disabled:opacity-60"
         >
           {signingOut ? 'Signing out...' : 'Sign out'}
         </button>
-        <div className="text-3xl mb-1">🍽️</div>
+        <div className="text-3xl mb-1">{rest.emoji}</div>
         <h1 className="text-2xl font-fredoka font-bold text-riivo-yellow">
           Hey {name}! What&apos;s for lunch?
         </h1>
-        <p className="text-sm text-riivo-muted mt-1">Pick your meal below</p>
+        <p className="text-sm text-riivo-muted mt-1">
+          Ordering from <span className="text-riivo-white font-semibold">{rest.name}</span>
+        </p>
       </div>
 
       <div className="max-w-lg mx-auto px-4 pt-4 space-y-4">
@@ -393,7 +428,7 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
         <div className="flex gap-3 items-stretch">
 
           {/* Previous order card */}
-          {previousOrder && (
+          {previousMatchesRestaurant && previousOrder && (
             <button
               onClick={handleReSelectPrevious}
               className="flex-1 bg-riivo-navy-light rounded-xl shadow-sm border border-riivo-border p-3 text-left hover:border-riivo-yellow hover:shadow-md transition-all"
@@ -443,14 +478,41 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
           </div>
         )}
 
+        {/* Spice level selector for Tadka */}
+        {rest.hasSpiceLevel && (
+          <div className="bg-riivo-navy-light rounded-xl shadow-sm border border-riivo-border p-4">
+            <div className="text-xs font-semibold font-fredoka text-riivo-yellow uppercase tracking-wide mb-3">
+              🌶️ Spice Level
+            </div>
+            <div className="grid grid-cols-4 gap-2">
+              {SPICE_LEVELS.map((level) => (
+                <button
+                  key={level}
+                  onClick={() => setSpiceLevel(level)}
+                  className={`py-2 px-1 rounded-lg text-xs font-bold font-fredoka transition-all
+                    ${spiceLevel === level
+                      ? 'bg-riivo-yellow text-riivo-navy shadow-md'
+                      : 'bg-riivo-navy border border-riivo-border text-riivo-muted hover:border-riivo-yellow/50 hover:text-riivo-white'
+                    }`}
+                >
+                  {level}
+                </button>
+              ))}
+            </div>
+            {!spiceLevel && selectedItem && (
+              <p className="text-xs text-amber-400 mt-2">Please select a spice level</p>
+            )}
+          </div>
+        )}
+
         {/* Tab bar */}
         <div className="bg-riivo-navy-light rounded-xl shadow-sm border border-riivo-border overflow-hidden">
-          <div className="flex">
+          <div className="flex flex-wrap">
             {MENU.map((cat, idx) => (
               <button
                 key={cat.name}
                 onClick={() => setActiveTab(idx)}
-                className={`flex-1 py-3 min-h-[44px] text-sm font-semibold font-fredoka transition-colors border-b-2
+                className={`flex-1 py-3 min-h-[44px] min-w-[60px] text-sm font-semibold font-fredoka transition-colors border-b-2
                   ${activeTab === idx
                     ? 'bg-riivo-yellow text-riivo-navy border-riivo-yellow'
                     : 'text-riivo-muted hover:text-riivo-white hover:bg-riivo-navy border-transparent'
@@ -543,16 +605,18 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
         <div className="max-w-lg mx-auto">
           <button
             onClick={handleSubmit}
-            disabled={!selectedItem}
+            disabled={!canSubmit}
             className={`w-full py-4 rounded-xl font-bold text-base transition-all
-              ${selectedItem
+              ${canSubmit
                 ? 'bg-riivo-yellow text-riivo-navy hover:brightness-110 shadow-md active:scale-95'
                 : 'bg-riivo-border text-riivo-muted cursor-not-allowed'
               }`}
           >
-            {selectedItem && currentItem
+            {canSubmit && currentItem
               ? `Order ${currentItem.name} — R${selectedPrice}`
-              : 'Select a meal to continue'
+              : rest.hasSpiceLevel && selectedItem && !spiceLevel
+                ? 'Select a spice level to continue'
+                : 'Select a meal to continue'
             }
           </button>
         </div>

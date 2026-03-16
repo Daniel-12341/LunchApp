@@ -17,6 +17,7 @@ export async function saveOrder(payload: {
   mealName: string
   price: number
   customisation?: string
+  restaurant?: string
 }): Promise<{ error?: string }> {
   const supabase = await createClient()
   const { week, year } = getISOWeekNumber(new Date())
@@ -28,6 +29,7 @@ export async function saveOrder(payload: {
     meal_name: payload.mealName,
     price: payload.price,
     customisation: payload.customisation ?? null,
+    restaurant: payload.restaurant ?? null,
     week_number: week,
     year,
   })
@@ -39,16 +41,15 @@ export async function saveOrder(payload: {
 }
 
 export async function getPreviousOrder(selectedName: string): Promise<{
-  data: { meal_name: string; meal_category: string; price: number; customisation: string | null } | null
+  data: { meal_name: string; meal_category: string; price: number; customisation: string | null; restaurant?: string | null } | null
   error?: string
 }> {
   const supabase = await createClient()
 
   const { data, error } = await supabase
     .from('orders')
-    .select('meal_name, meal_category, price, customisation')
+    .select('meal_name, meal_category, price, customisation, restaurant')
     .eq('selected_name', selectedName)
-    .eq('archived', false)
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle()

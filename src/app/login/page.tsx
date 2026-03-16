@@ -60,7 +60,7 @@ function LoginForm() {
     if (profile?.role === 'admin') {
       router.push('/admin')
     } else {
-      router.push('/order?name=' + encodeURIComponent(name))
+      router.push('/restaurant?name=' + encodeURIComponent(name))
     }
     router.refresh()
   }
