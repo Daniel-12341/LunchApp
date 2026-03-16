@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import confetti from 'canvas-confetti'
+import { createClient } from '@/utils/supabase/client'
 import { MENU, MenuItem } from '@/data/menu'
 import { getPreviousOrder, saveOrder } from '@/utils/orderActions'
 
@@ -43,6 +45,8 @@ const FOOD_BACKGROUNDS = [
 ]
 
 export default function OrderPageClient({ name, userId }: OrderPageClientProps) {
+  const router = useRouter()
+  const [signingOut, setSigningOut] = useState(false)
   const [bgImage] = useState(() => FOOD_BACKGROUNDS[Math.floor(Math.random() * FOOD_BACKGROUNDS.length)])
   const [activeTab, setActiveTab] = useState(0)
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null)
@@ -362,7 +366,20 @@ export default function OrderPageClient({ name, userId }: OrderPageClientProps) 
       <div className="relative z-10">
 
       {/* Header */}
-      <div className="bg-riivo-navy-light/70 backdrop-blur-sm border-b border-riivo-border px-4 py-5 text-center">
+      <div className="relative bg-riivo-navy-light/70 backdrop-blur-sm border-b border-riivo-border px-4 py-5 text-center">
+        <button
+          onClick={async () => {
+            setSigningOut(true)
+            const supabase = createClient()
+            await supabase.auth.signOut()
+            router.push('/')
+            router.refresh()
+          }}
+          disabled={signingOut}
+          className="absolute top-4 right-4 bg-riivo-navy-light/80 border border-riivo-border text-riivo-muted hover:text-riivo-white rounded-lg px-3 py-1.5 text-xs transition disabled:opacity-60"
+        >
+          {signingOut ? 'Signing out...' : 'Sign out'}
+        </button>
         <div className="text-3xl mb-1">🍽️</div>
         <h1 className="text-2xl font-fredoka font-bold text-riivo-yellow">
           Hey {name}! What&apos;s for lunch?

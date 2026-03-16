@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+const publicPaths = ['/', '/login']
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
@@ -32,21 +34,14 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  // Unauthenticated users can only access the login page
-  if (!user && pathname !== '/') {
-    return NextResponse.redirect(new URL('/', request.url))
+  // Public pages — accessible without auth
+  if (publicPaths.includes(pathname)) {
+    return supabaseResponse
   }
 
-  // Authenticated users visiting the login page get routed by role
-  if (user && pathname === '/') {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('auth_user_id', user.id)
-      .single()
-
-    const dest = profile?.role === 'admin' ? '/admin' : '/home'
-    return NextResponse.redirect(new URL(dest, request.url))
+  // Protected pages — redirect to map if not authenticated
+  if (!user) {
+    return NextResponse.redirect(new URL('/', request.url))
   }
 
   return supabaseResponse

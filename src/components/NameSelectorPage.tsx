@@ -2,13 +2,11 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/utils/supabase/client'
 import { PEOPLE, Person } from '@/data/people'
 import MapComponent from '@/components/MapComponent'
 
 export default function NameSelectorPage() {
   const router = useRouter()
-  const [signingOut, setSigningOut] = useState(false)
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null)
   const [animationComplete, setAnimationComplete] = useState(false)
   const [search, setSearch] = useState('')
@@ -32,7 +30,7 @@ export default function NameSelectorPage() {
 
   const handleContinue = () => {
     if (selectedPerson) {
-      router.push('/order?name=' + encodeURIComponent(selectedPerson.name))
+      router.push('/login?name=' + encodeURIComponent(selectedPerson.name))
     }
   }
 
@@ -92,21 +90,6 @@ export default function NameSelectorPage() {
           )}
         </div>
       </div>
-
-      {/* Sign out button — top right */}
-      <button
-        onClick={async () => {
-          setSigningOut(true)
-          const supabase = createClient()
-          await supabase.auth.signOut()
-          router.push('/')
-          router.refresh()
-        }}
-        disabled={signingOut}
-        className="absolute top-6 right-4 z-50 bg-riivo-navy-light/80 border border-riivo-border text-riivo-muted hover:text-riivo-white rounded-lg px-3 py-1.5 text-xs transition"
-      >
-        {signingOut ? 'Signing out...' : 'Sign out'}
-      </button>
 
       {/* Continue button — bottom center, appears after animation */}
       {animationComplete && selectedPerson && (

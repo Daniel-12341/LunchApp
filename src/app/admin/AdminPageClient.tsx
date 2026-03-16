@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { createClient } from '@/utils/supabase/client'
 import { PEOPLE } from '@/data/people'
 import { archiveWeek } from '@/utils/adminActions'
 
@@ -53,6 +55,8 @@ function buildWhatsAppMessage(orders: Order[]): string {
 }
 
 export default function AdminPageClient({ orders: initialOrders, weekNumber, year }: Props) {
+  const router = useRouter()
+  const [signingOut, setSigningOut] = useState(false)
   const [currentOrders, setCurrentOrders] = useState<Order[]>(initialOrders)
   const [showConfirm, setShowConfirm] = useState(false)
   const [isArchiving, setIsArchiving] = useState(false)
@@ -113,11 +117,26 @@ export default function AdminPageClient({ orders: initialOrders, weekNumber, yea
     <div className="min-h-screen bg-riivo-navy">
       <div className="max-w-2xl mx-auto px-4 py-6">
         {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-fredoka font-bold text-riivo-yellow mb-1">Admin Dashboard</h1>
-          <p className="text-riivo-muted text-sm">
-            This Week&apos;s Orders ({currentOrders.length} of 18)
-          </p>
+        <div className="mb-6 flex items-start justify-between">
+          <div>
+            <h1 className="text-3xl font-fredoka font-bold text-riivo-yellow mb-1">Admin Dashboard</h1>
+            <p className="text-riivo-muted text-sm">
+              This Week&apos;s Orders ({currentOrders.length} of 18)
+            </p>
+          </div>
+          <button
+            onClick={async () => {
+              setSigningOut(true)
+              const supabase = createClient()
+              await supabase.auth.signOut()
+              router.push('/')
+              router.refresh()
+            }}
+            disabled={signingOut}
+            className="bg-riivo-navy-light/80 border border-riivo-border text-riivo-muted hover:text-riivo-white rounded-lg px-3 py-1.5 text-xs transition disabled:opacity-60 shrink-0"
+          >
+            {signingOut ? 'Signing out...' : 'Sign out'}
+          </button>
         </div>
 
         {/* Action buttons */}

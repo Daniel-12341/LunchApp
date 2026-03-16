@@ -17,7 +17,7 @@ export default async function AdminPage() {
     .eq('auth_user_id', user.id)
     .single()
 
-  if (profile?.role !== 'admin') redirect('/home')
+  if (profile?.role !== 'admin') redirect('/')
 
   const { data: orders, week, year } = await getWeeklyOrders()
 
