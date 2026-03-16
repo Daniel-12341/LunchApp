@@ -22,6 +22,7 @@ function LoginForm() {
   const [password, setPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
     if (prefillEmail) setEmail(prefillEmail)
@@ -58,10 +59,12 @@ function LoginForm() {
       .single()
 
     if (profile?.role === 'admin') {
-      router.push('/admin')
-    } else {
-      router.push('/restaurant?name=' + encodeURIComponent(name))
+      setIsAdmin(true)
+      setIsLoading(false)
+      return
     }
+
+    router.push('/restaurant?name=' + encodeURIComponent(name))
     router.refresh()
   }
 
@@ -79,91 +82,137 @@ function LoginForm() {
       {/* Login card */}
       <div className="relative z-10 w-full max-w-md mx-4">
         <div className="bg-riivo-navy-light/95 backdrop-blur border border-riivo-border rounded-2xl shadow-2xl px-8 py-10">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="text-5xl mb-3">🍽️</div>
-            <h1 className="text-3xl font-fredoka font-bold text-riivo-yellow tracking-tight">
-              What&apos;s for lunch?
-            </h1>
-            {name && (
-              <p className="text-riivo-muted mt-2 text-sm font-fredoka">
-                Sign in as <span className="text-riivo-white font-semibold">{name}</span>
-              </p>
-            )}
-          </div>
+          {isAdmin ? (
+            <>
+              {/* Admin choice */}
+              <div className="text-center mb-8">
+                <div className="text-5xl mb-3">👋</div>
+                <h1 className="text-3xl font-fredoka font-bold text-riivo-yellow tracking-tight">
+                  Hey {name || 'Admin'}!
+                </h1>
+                <p className="text-riivo-muted mt-2 text-sm font-fredoka">
+                  What would you like to do?
+                </p>
+              </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-semibold text-riivo-muted mb-1"
+              <div className="space-y-3">
+                <button
+                  onClick={() => router.push('/restaurant?name=' + encodeURIComponent(name))}
+                  className="w-full bg-riivo-yellow hover:brightness-110 text-riivo-navy font-bold py-4 px-6 rounded-xl shadow-md transition active:scale-95 flex items-center justify-center gap-3 text-lg font-fredoka"
+                >
+                  <span className="text-2xl">🍽️</span>
+                  Place My Order
+                </button>
+                <button
+                  onClick={() => router.push('/admin')}
+                  className="w-full bg-riivo-navy border-2 border-riivo-yellow text-riivo-yellow font-bold py-4 px-6 rounded-xl shadow-md transition hover:bg-riivo-yellow/10 active:scale-95 flex items-center justify-center gap-3 text-lg font-fredoka"
+                >
+                  <span className="text-2xl">📊</span>
+                  Admin Dashboard
+                </button>
+              </div>
+
+              <button
+                onClick={async () => {
+                  const supabase = createClient()
+                  await supabase.auth.signOut()
+                  setIsAdmin(false)
+                  setPassword('')
+                }}
+                className="mt-4 w-full text-center text-riivo-muted hover:text-riivo-white text-sm transition"
               >
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="name@riivo.io"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={isLoading}
-                className="w-full rounded-xl border border-riivo-border bg-riivo-navy px-4 py-3 text-riivo-white placeholder-riivo-muted/50 focus:outline-none focus:ring-2 focus:ring-riivo-yellow focus:border-transparent transition disabled:opacity-60"
-              />
-            </div>
+                &larr; Sign out
+              </button>
+            </>
+          ) : (
+            <>
+              {/* Header */}
+              <div className="text-center mb-8">
+                <div className="text-5xl mb-3">🍽️</div>
+                <h1 className="text-3xl font-fredoka font-bold text-riivo-yellow tracking-tight">
+                  What&apos;s for lunch?
+                </h1>
+                {name && (
+                  <p className="text-riivo-muted mt-2 text-sm font-fredoka">
+                    Sign in as <span className="text-riivo-white font-semibold">{name}</span>
+                  </p>
+                )}
+              </div>
 
-            {/* Password */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-semibold text-riivo-muted mb-1"
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Email */}
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-semibold text-riivo-muted mb-1"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="name@riivo.io"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    disabled={isLoading}
+                    className="w-full rounded-xl border border-riivo-border bg-riivo-navy px-4 py-3 text-riivo-white placeholder-riivo-muted/50 focus:outline-none focus:ring-2 focus:ring-riivo-yellow focus:border-transparent transition disabled:opacity-60"
+                  />
+                </div>
+
+                {/* Password */}
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-semibold text-riivo-muted mb-1"
+                  >
+                    Password
+                  </label>
+                  <input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    disabled={isLoading}
+                    className="w-full rounded-xl border border-riivo-border bg-riivo-navy px-4 py-3 text-riivo-white placeholder-riivo-muted/50 focus:outline-none focus:ring-2 focus:ring-riivo-yellow focus:border-transparent transition disabled:opacity-60"
+                  />
+                </div>
+
+                {/* Error message */}
+                {errorMsg && (
+                  <p className="text-red-400 text-sm text-center font-medium bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+                    {errorMsg}
+                  </p>
+                )}
+
+                {/* Submit button */}
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full bg-riivo-yellow hover:brightness-110 text-riivo-navy font-bold py-3 px-6 rounded-xl shadow-md transition disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg font-fredoka"
+                >
+                  {isLoading ? (
+                    <>
+                      <span className="inline-block w-5 h-5 border-2 border-riivo-navy border-t-transparent rounded-full animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    "Let's Eat!"
+                  )}
+                </button>
+              </form>
+
+              {/* Back link */}
+              <button
+                onClick={() => router.push('/')}
+                className="mt-4 w-full text-center text-riivo-muted hover:text-riivo-white text-sm transition"
               >
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={isLoading}
-                className="w-full rounded-xl border border-riivo-border bg-riivo-navy px-4 py-3 text-riivo-white placeholder-riivo-muted/50 focus:outline-none focus:ring-2 focus:ring-riivo-yellow focus:border-transparent transition disabled:opacity-60"
-              />
-            </div>
-
-            {/* Error message */}
-            {errorMsg && (
-              <p className="text-red-400 text-sm text-center font-medium bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
-                {errorMsg}
-              </p>
-            )}
-
-            {/* Submit button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-riivo-yellow hover:brightness-110 text-riivo-navy font-bold py-3 px-6 rounded-xl shadow-md transition disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg font-fredoka"
-            >
-              {isLoading ? (
-                <>
-                  <span className="inline-block w-5 h-5 border-2 border-riivo-navy border-t-transparent rounded-full animate-spin" />
-                  Signing in...
-                </>
-              ) : (
-                "Let's Eat!"
-              )}
-            </button>
-          </form>
-
-          {/* Back link */}
-          <button
-            onClick={() => router.push('/')}
-            className="mt-4 w-full text-center text-riivo-muted hover:text-riivo-white text-sm transition"
-          >
-            &larr; Back to map
-          </button>
+                &larr; Back to map
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>
