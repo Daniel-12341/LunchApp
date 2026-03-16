@@ -1,106 +1,67 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-milestone_name: milestone
-status: executing
-stopped_at: Completed 04-admin-polish 04-03-PLAN.md
-last_updated: "2026-03-15T19:56:34.080Z"
-last_activity: "2026-03-15 — Phase 1 Plan 02 complete: auth UI and route protection"
+milestone_name: MVP
+status: completed
+stopped_at: Milestone v1.0 archived
+last_updated: "2026-03-16"
+last_activity: "2026-03-16 — Milestone v1.0 MVP completed and archived"
 progress:
   total_phases: 4
   completed_phases: 4
   total_plans: 9
   completed_plans: 9
-  percent: 0
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-15)
+See: .planning/PROJECT.md (updated 2026-03-16)
 
-**Core value:** Users can quickly and enjoyably place their weekly lunch order and have it shared to WhatsApp in one click.
-**Current focus:** Phase 1 — Foundation
+**Core value:** Users can quickly and enjoyably place their weekly lunch order with a playful, animated experience.
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 1 of 4 (Foundation)
-Plan: 2 of 2 in current phase
-Status: In progress
-Last activity: 2026-03-15 — Phase 1 Plan 02 complete: auth UI and route protection
+Milestone: v1.0 MVP — SHIPPED 2026-03-16
+All 4 phases complete (9 plans)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
-**Velocity:**
-- Total plans completed: 0
-- Average duration: -
-- Total execution time: -
-
 **By Phase:**
 
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| - | - | - | - |
-
-**Recent Trend:**
-- Last 5 plans: -
-- Trend: -
-
-*Updated after each plan completion*
-| Phase 01-foundation P01 | 18 | 2 tasks | 4 files |
-| Phase 01-foundation P02 | 2 | 2 tasks | 8 files |
-| Phase 02-name-selector P01 | 8m | 2 tasks | 4 files |
-| Phase 02-name-selector P02 | 2 | 2 tasks | 6 files |
-| Phase 03-order-share P01 | 12 | 2 tasks | 4 files |
-| Phase 03-order-share P02 | 5min | 2 tasks | 1 files |
-| Phase 04-admin-polish P01 | 10min | 2 tasks | 4 files |
-| Phase 04-admin-polish P02 | 10min | 2 tasks | 7 files |
-| Phase 04-admin-polish P03 | 1min | 2 tasks | 2 files |
+| Phase | Plan | Duration | Tasks | Files |
+|-------|------|----------|-------|-------|
+| 01-foundation | P01 | 18min | 2 | 4 |
+| 01-foundation | P02 | 2min | 2 | 8 |
+| 02-name-selector | P01 | 8min | 2 | 4 |
+| 02-name-selector | P02 | 2min | 2 | 6 |
+| 03-order-share | P01 | 12min | 2 | 4 |
+| 03-order-share | P02 | 5min | 2 | 1 |
+| 04-admin-polish | P01 | 10min | 2 | 4 |
+| 04-admin-polish | P02 | 10min | 2 | 7 |
+| 04-admin-polish | P03 | 1min | 2 | 2 |
 
 ## Accumulated Context
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
-
-- username@lunchapp.com email format used internally; UI shows username only
-- Org members and menu items are hardcoded (no management UI)
-- Archive-based weekly reset preserves history for "Previous Order" feature
-- WhatsApp sharing via wa.me link (no API integration)
-- [Phase 01-foundation]: profiles.id is plain UUID (no FK to auth.users) with nullable auth_user_id column for auth-linked rows, enabling org members without auth accounts to have profile rows
-- [Phase 01-foundation]: RLS policies use auth_user_id (not id) for admin role checks since profiles.id is not a FK to auth.users
-- [Phase 01-foundation]: Middleware redirects unauthenticated to / and authenticated away from / to /home; admin role check done in admin page (not middleware) to avoid extra DB query per request
-- [Phase 01-foundation]: Login form translates username to username@lunchapp.com before signInWithPassword; getUser() used on all server-side code
-- [Phase 02-name-selector]: PEOPLE array in people.ts is a static client-side mirror of seed data — no DB query needed for map rendering
-- [Phase 02-name-selector]: Next.js 16 forbids ssr:false dynamic import in Server Components — NameSelectorLoader 'use client' wrapper pattern used
-- [Phase 02-name-selector]: L.divIcon used for all Leaflet markers to avoid default PNG 404 errors in Next.js
-- [Phase 03-order-share]: Server actions in separate file from client components — cannot mix use server and use client in same file
-- [Phase 03-order-share]: Surprise Me ticker uses setInterval at 80ms over 20 ticks, auto-selects winner and switches tab on completion
-- [Phase 03-order-share]: Early return render pattern used for confirm/success screens in OrderPageClient
-- [Phase 03-order-share]: pendingOrder state carries all order data through confirm/success screens without re-deriving from selectedItem
-- [Phase 04-admin-polish]: getWeeklyOrders returns week+year alongside data so page.tsx can pass them to client without a second calculation
-- [Phase 04-admin-polish]: archiveWeek uses .select('id') after UPDATE to get count of archived rows (Supabase requires select to return updated rows)
-- [Phase 04-admin-polish]: usePathname as AnimatePresence key (not FrozenRouter) to avoid Next.js internal import breakage
-- [Phase 04-admin-polish]: Fredoka weight 400 used (Fredoka One deprecated; Fredoka is current variable-weight replacement)
-- [Phase 04-admin-polish]: Body text stays Arial/Helvetica; Pacifico/Fredoka applied only to specific elements via .font-pacifico/.font-fredoka utility classes
-- [Phase 04-admin-polish]: Service role key used in Edge Function to bypass RLS for admin-level bulk archive update
-- [Phase 04-admin-polish]: ISO week calculation copied verbatim from orderActions.ts into Edge Function to guarantee matching week boundaries
-- [Phase 04-admin-polish]: pg_cron migration includes inline manual alternative with hardcoded URL/key for simpler setup without Postgres custom settings
+Decisions logged in PROJECT.md Key Decisions table.
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
-None yet.
+None.
 
 ## Session Continuity
 
-Last session: 2026-03-15T19:56:34.076Z
-Stopped at: Completed 04-admin-polish 04-03-PLAN.md
+Last session: 2026-03-16
+Stopped at: Milestone v1.0 MVP archived
 Resume file: None

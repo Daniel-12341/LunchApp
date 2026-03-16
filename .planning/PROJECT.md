@@ -2,38 +2,37 @@
 
 ## What This Is
 
-A fun, colourful lunch ordering web app for a small organisation (~10 people). Users log in, pick their name from a list, see their location on an animated map of the Western Cape, then choose a meal from categorised menus. Orders are saved to Supabase and shared via a WhatsApp link. An admin can view and manage all weekly orders.
+A fun, colourful lunch ordering web app for a small organisation (~18 people) in the Western Cape. Users log in, pick their name from an animated map, choose a meal from categorised menus, and confirm with confetti. An admin can view all weekly orders, export a WhatsApp summary, and archive weeks manually or via automated Edge Function.
 
 ## Core Value
 
-Users can quickly and enjoyably place their weekly lunch order and have it shared to WhatsApp in one click.
+Users can quickly and enjoyably place their weekly lunch order with a playful, animated experience.
 
 ## Requirements
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ Simple username/password auth via Supabase Auth — v1.0
+- ✓ Two roles: user and admin — v1.0
+- ✓ Seeded admin and 18 org members — v1.0
+- ✓ Name selector page with animated map zoom (Leaflet.js) — v1.0
+- ✓ Fun emoji markers with custom labels per person — v1.0
+- ✓ Lunch order page with 4 meal categories with priced items — v1.0
+- ✓ "My Previous Order" feature to re-select last order — v1.0
+- ✓ "Surprise Me!" random meal selector with animation — v1.0
+- ✓ Special requests text field — v1.0
+- ✓ Order saved to Supabase orders table — v1.0
+- ✓ Confetti success screen after order submission — v1.0
+- ✓ Admin page showing all weekly orders in a table — v1.0
+- ✓ Admin can reset week and export WhatsApp summary — v1.0
+- ✓ Weekly auto-reset via Edge Function (Sunday 21:00 UTC) — v1.0
+- ✓ Archived orders preserved for "Previous Order" feature — v1.0
+- ✓ RLS: users read/write own orders, admin reads all — v1.0
+- ✓ Mobile-friendly, playful UI with Framer Motion animations — v1.0
 
 ### Active
 
-- [ ] Simple username/password auth via Supabase Auth (username@lunchapp.com format internally)
-- [ ] Two roles: user and admin
-- [ ] Seeded admin (admin/admin123) and test users
-- [ ] Name selector page with animated map zoom (Leaflet.js) to person's Western Cape location
-- [ ] Fun emoji markers with custom labels per person
-- [ ] Lunch order page with 4 meal categories (Pizza, Pasta, Salad, Panini) with priced items
-- [ ] "My Previous Order" feature to re-select last order
-- [ ] "Surprise Me!" random meal selector with animation
-- [ ] Special requests text field
-- [ ] Order saved to Supabase orders table
-- [ ] WhatsApp link generation with all weekly orders formatted
-- [ ] Confetti success screen after order submission
-- [ ] Admin page showing all weekly orders in a table
-- [ ] Admin can reset week (archive orders) and export order summary
-- [ ] Weekly auto-reset via Supabase Edge Function (Sunday 21:00 UTC)
-- [ ] Archived orders preserved for "Previous Order" feature
-- [ ] RLS: users read/write own orders, admin reads all
-- [ ] Mobile-friendly, playful UI with Framer Motion animations
+- [ ] WhatsApp link auto-generated on order submit (SHR-01, SHR-02 — deferred from v1.0)
 
 ### Out of Scope
 
@@ -45,31 +44,33 @@ Users can quickly and enjoyably place their weekly lunch order and have it share
 
 ## Context
 
-- Stack: Next.js (TypeScript), Tailwind CSS, Supabase (Postgres + Auth + Edge Functions)
-- Hosting: Vercel (dev + prod), Supabase (dev + prod)
-- CI/CD: GitHub Actions with dev/prod deploy workflow already configured
-- Existing scaffolding: Next.js app initialized, Supabase CLI linked to dev project
-- Organisation: ~10 people in Western Cape, South Africa
-- Map: Leaflet.js with locations between Greyton and Blouberg
-- Animations: Framer Motion for transitions, confetti, zoom effects
-- Fonts: Google Fonts (Pacifico/Fredoka One)
-- Food images: Unsplash direct URLs
+Shipped v1.0 MVP with 1,665 lines TypeScript + 292 lines SQL.
+Tech stack: Next.js 16 (TypeScript), Tailwind CSS, Supabase (Postgres + Auth + Edge Functions), Framer Motion, Leaflet.js.
+Hosting: Vercel (dev + prod), Supabase (dev + prod).
+18 org members in Western Cape, South Africa with custom map locations and emoji markers.
+Admin WhatsApp export covers the sharing use case; auto-share on submit deferred.
 
 ## Constraints
 
-- **Tech stack**: Next.js + Tailwind + Supabase (already set up)
+- **Tech stack**: Next.js + Tailwind + Supabase (established)
 - **Auth**: Supabase Auth email/password only, no OTP
 - **Data**: Hardcoded org members and menu items (updatable later)
-- **Speed**: Prioritise working functionality over perfect code
+- **Edge Functions**: Deno runtime, service role key for RLS bypass
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| username@lunchapp.com email format | Supabase Auth requires email, but UI shows only username | — Pending |
-| Hardcoded org members | Small team, no need for user management UI | — Pending |
-| Archive-based weekly reset | Preserve order history for "Previous Order" feature | — Pending |
-| WhatsApp via wa.me link | Simple, no API integration needed | — Pending |
+| username@lunchapp.com email format | Supabase Auth requires email, but UI shows only username | ✓ Good — transparent to users |
+| Hardcoded org members | Small team, no need for user management UI | ✓ Good — simple and fast |
+| Archive-based weekly reset | Preserve order history for "Previous Order" feature | ✓ Good — enables recall |
+| WhatsApp via admin export | Simple button rather than auto-share on submit | ✓ Good — admin controls sharing |
+| profiles.id as plain UUID | Org members without auth accounts can have profile rows | ✓ Good — flexible schema |
+| Static PEOPLE array | No DB query needed for map rendering | ✓ Good — fast client-side |
+| L.divIcon for markers | Avoids default Leaflet PNG 404 errors in Next.js | ✓ Good — no broken images |
+| Fredoka weight 400 | Fredoka One deprecated; Fredoka is variable-weight replacement | ✓ Good — future-proof |
+| Service role key in Edge Function | Bypass RLS for admin-level bulk archive | ✓ Good — necessary for cron |
+| pg_cron with manual fallback | Inline manual alternative for simpler setup | ✓ Good — flexible deployment |
 
 ---
-*Last updated: 2026-03-15 after initialization*
+*Last updated: 2026-03-16 after v1.0 milestone*
