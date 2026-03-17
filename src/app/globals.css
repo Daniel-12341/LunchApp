@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0B1C3E;
+  --foreground: #FFFFFF;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: Arial, Helvetica, sans-serif;
+  --color-riivo-navy: #0B1C3E;
+  --color-riivo-navy-light: #122350;
+  --color-riivo-border: #1E3260;
+  --color-riivo-yellow: #D4E000;
+  --color-riivo-white: #FFFFFF;
+  --color-riivo-muted: #A8B8D0;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Leaflet marker overrides */
+.emoji-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: opacity 0.3s ease;
+  text-align: center;
+}
+.emoji-marker .marker-location {
+  font-size: 0.65rem;
+  color: #1E3260;
+  font-weight: 700;
+  white-space: nowrap;
+  margin-top: 2px;
+  text-shadow: 0 0 3px rgba(255,255,255,0.8);
+}
+.marker-dimmed {
+  opacity: 0.35;
+}
+.marker-selected {
+  opacity: 1;
+}
+@keyframes markerBounce {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-12px); }
+  60% { transform: translateY(-6px); }
+}
+.marker-bounce {
+  animation: markerBounce 0.6s ease 3;
+}
+
+/* Leaflet container overrides */
+.leaflet-container {
+  font-family: inherit;
+  z-index: 0;
+}
+
+@layer utilities {
+  .font-pacifico { font-family: var(--font-pacifico), cursive; }
+  .font-fredoka { font-family: var(--font-fredoka), sans-serif; }
+}
